@@ -1,0 +1,26 @@
+/*Media sizes*/
+$notApplicableWidthPx: 1px;
+$phoneViewportWidthPx: 479px;
+
+/*Z-indexes*/
+$interfaceZIndex: 200;
+$interfaceBoxShadowZIndex: 199;
+
+$minAppWidthPx: 300px;
+$interfacePaddingBottomPx: 50px;
+$menuButtonWidthPx: 50px;
+$headerHeightPx: 50px;
+$menuBackgroundColor: oldlace;
+$logonHeightPx: 100px;
+$menuPaddingBottomPx: 50px;
+
+
+$calcWidthPx: 350px;
+$calcHeigthPx: 500px;
+$calcDisplayFullHeightPx: 55px;
+$calcDisplayVMargin: 10px;
+$calcDisplayHeightPx: $calcDisplayFullHeightPx - $calcDisplayVMargin * 2;
+$calcDisplayHMargin: 6px;
+$calcOperationsHeightPx: 20px;
+$calcButtonHMargin: 3px;
+$calcButtonVMargin: 3px;
