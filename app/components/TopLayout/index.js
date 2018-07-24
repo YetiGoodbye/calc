@@ -1,4 +1,4 @@
-import classes from '../../config/namespace.scss';
+import classes from 'Config/namespace.scss';
 
 import React from 'react';
 import './index.scss';

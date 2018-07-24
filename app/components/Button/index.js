@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from '../../config/namespace.scss';
+import classes from 'Config/namespace.scss';
 
 import './index.scss';
 
