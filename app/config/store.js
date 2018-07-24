@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 // import { logger, router, reduxRouterMiddleware } from '../middleware';
-import rootReducer from '../reducers';
+import rootReducer from 'Reducers';
 
 // const nextReducer = require('../reducers');
 

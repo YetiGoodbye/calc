@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 import './reset.scss';
 
-import Application from './components/Application';
+import Application from 'Components/Application';
 
 document.addEventListener("DOMContentLoaded", () => {
 

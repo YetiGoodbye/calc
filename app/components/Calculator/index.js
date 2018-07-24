@@ -2,11 +2,11 @@ import React from 'react';
 
 import {processState, initialState} from './business';
 
-import classes from '../../config/namespace.scss';
+import classes from 'Config/namespace.scss';
 
 import './index.scss';
 
-import Button from '../Button';
+import Button from 'Components/Button';
 
 import {SYMBOL as SM} from './constants';
 

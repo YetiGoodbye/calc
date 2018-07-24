@@ -1,11 +1,5 @@
 import React from 'react';
 
-// import classes from '../../config/classes.scss';
-
-// import './index.scss';
-
-// const BUTTON_CLASS = classes.Button;
-
 const Logon = (props) => {
   return (
     <form>
