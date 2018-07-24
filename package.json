@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "./node_modules/.bin/webpack-dev-server --config ./webpack/dev.config.js --public --host 192.168.88.101",
-    "build": "webpack --config webpack/prod.config.js"
+    "start": "./node_modules/.bin/webpack-dev-server --config ./webpack/dev.config.js --env.base=`pwd` --public --host 192.168.88.101",
+    "build": "webpack --config webpack/prod.config.js --env.base=`pwd`"
   },
   "author": "Niyaz Akhmetov",
   "license": "MIT",
