@@ -10,6 +10,8 @@ function createBaseConfig(env){
         Actions:    resolve(env.base, 'app/actions/'),
         Reducers:   resolve(env.base, 'app/reducers/'),
         Config:     resolve(env.base, 'app/config/'),
+        Constants:  resolve(env.base, 'app/constants/'),
+        Utils:      resolve(env.base, 'app/utils/'),
       }
     },
     module: {

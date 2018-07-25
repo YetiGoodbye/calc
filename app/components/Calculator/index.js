@@ -1,14 +1,15 @@
 import React from 'react';
-
-import {processState, initialState} from './business';
-
+import {connect} from 'react-redux';
 import classes from 'Config/namespace.scss';
+
+import {getCaclucatorDisplay} from 'Reducers';
+import {calcReceiveKey} from 'Actions';
 
 import './index.scss';
 
 import Button from 'Components/Button';
 
-import {SYMBOL as SM} from './constants';
+import {symbols as SM} from 'Constants';
 
 const CLS = classes.Calculator;
 const CLS_DISPLAY = `${CLS}--display`;
@@ -54,34 +55,27 @@ const buttonClasses = {
 }
 
 class Calculator extends React.Component {
+
   constructor(props){
     super(props);
-    this.state = initialState();
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(e){
     let key = e.target.getAttribute("data-button-name");
-    if(!key) return;    
-
-    // console.log("before:\n", this.state);
-    // console.log(e.target);
-    // console.group("handleClick " + e.target.getAttribute("data-button-name"));
-
-    let nextState = processState(Object.assign({}, this.state), key);
-    
-    // console.log("after:\n", nextState);
-    
-    this.setState(nextState);
-    // console.groupEnd("handleClick");
+    if(!key) return;
+    console.log(this.props.calcReceiveKey);
+    this.props.calcReceiveKey(key);
   }
 
   render(){
+    console.log("Calculator: ", this.props.display);
     return (
       <div className={CLS}>
         <div className={CLS_DISPLAY}>
-          <label className={CLS_RESULT}>{this.state.display}</label>
+          <label className={CLS_RESULT}>{this.props.display}</label>
         </div>
-        <div  className={CLS_KEYPAD} onClick={this.handleClick.bind(this)} >
+        <div  className={CLS_KEYPAD} onClick={this.handleClick} >
           {
             Object.keys(buttonClasses).map( (buttonName) => {
               let buttonClass = buttonClasses[buttonName];
@@ -100,4 +94,12 @@ class Calculator extends React.Component {
   }
 }
 
-export default Calculator;
+const mapStateToProps = (state) => ({
+  display: getCaclucatorDisplay(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  calcReceiveKey: (key) => dispatch(calcReceiveKey(key)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calculator);

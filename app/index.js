@@ -1,9 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+
+import configureStore from 'Config/store';
 
 import './reset.scss';
 
 import Application from 'Components/Application';
+
+const store = configureStore();
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -13,7 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(approot);
 
   ReactDOM.render(
-    <Application/>,
+    <Provider store={store}>
+      <Application/>
+    </Provider>,
     approot  
   );
 
