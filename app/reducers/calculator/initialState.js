@@ -1,16 +1,11 @@
-// import {WAIT_ACC_START} from './states';
-import states from './states';
-
-console.log("1:", states);
+import {stateNames} from './constants';
 
 const initialState = {
-  denotation: states.WAIT_ACC_START,
+  name: stateNames.INIT,
   acc: '',
   arg: '',
   op: '+',
   display: '0',
 };
-
-console.log("2:", initialState);
 
 export default initialState;

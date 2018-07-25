@@ -64,12 +64,12 @@ class Calculator extends React.Component {
   handleClick(e){
     let key = e.target.getAttribute("data-button-name");
     if(!key) return;
-    console.log(this.props.calcReceiveKey);
+    // console.log(this.props.calcReceiveKey);
     this.props.calcReceiveKey(key);
   }
 
   render(){
-    console.log("Calculator: ", this.props.display);
+    // console.log("Calculator: ", this.props.display);
     return (
       <div className={CLS}>
         <div className={CLS_DISPLAY}>
