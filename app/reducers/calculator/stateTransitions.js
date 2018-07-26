@@ -1,4 +1,4 @@
-import {symbols} from 'Constants';
+import {SYMBOLS as symbol} from 'Constants';
 import initialState from './initialState';
 import shallowCopy from 'Utils/shallowCopy';
 
@@ -122,10 +122,10 @@ const transitionActions = {
 
   [action.EVAL_BY_OPERATOR]: (state) => {
     switch(state.op){
-      case symbols.PLUS:  state.acc = `${+state.acc + +state.arg}`; break;
-      case symbols.MINUS: state.acc = `${+state.acc - +state.arg}`; break;
-      case symbols.MUL:   state.acc = `${+state.acc * +state.arg}`; break;
-      case symbols.DIV:   state.acc = `${+state.acc / +state.arg}`; break;
+      case symbol.PLUS:  state.acc = `${+state.acc + +state.arg}`; break;
+      case symbol.MINUS: state.acc = `${+state.acc - +state.arg}`; break;
+      case symbol.MUL:   state.acc = `${+state.acc * +state.arg}`; break;
+      case symbol.DIV:   state.acc = `${+state.acc / +state.arg}`; break;
     }
     state.display = state.acc;
   },
@@ -137,10 +137,10 @@ const transitionActions = {
 
   [action.EVAL]: (state) => {
      switch(state.op){
-      case symbols.PLUS:  state.acc = `${+state.acc + +state.arg}`; break;
-      case symbols.MINUS: state.acc = `${+state.acc - +state.arg}`; break;
-      case symbols.MUL:   state.acc = `${+state.acc * +state.arg}`; break;
-      case symbols.DIV:   state.acc = `${+state.acc / +state.arg}`; break;
+      case symbol.PLUS:  state.acc = `${+state.acc + +state.arg}`; break;
+      case symbol.MINUS: state.acc = `${+state.acc - +state.arg}`; break;
+      case symbol.MUL:   state.acc = `${+state.acc * +state.arg}`; break;
+      case symbol.DIV:   state.acc = `${+state.acc / +state.arg}`; break;
     }
     state.display = state.acc;
   },
@@ -158,20 +158,20 @@ const transitionActions = {
 };
 
 const digits = [
-    symbols.D0, symbols.D1, symbols.D2, symbols.D3, symbols.D4,
-    symbols.D5, symbols.D6, symbols.D7, symbols.D8, symbols.D9,
+    symbol.D0, symbol.D1, symbol.D2, symbol.D3, symbol.D4,
+    symbol.D5, symbol.D6, symbol.D7, symbol.D8, symbol.D9,
 ];
-const operators = [symbols.PLUS, symbols.MINUS, symbols.MUL, symbols.DIV];
+const operators = [symbol.PLUS, symbol.MINUS, symbol.MUL, symbol.DIV];
 
 const getKeyType = (key) => {
   if(digits.includes(key)) return keyType.DIGIT;
   if(operators.includes(key)) return keyType.OPERATOR;
   switch(key){
-    case symbols.SIGN:  return keyType.SIGN;
-    case symbols.POINT: return keyType.POINT;
-    case symbols.BACK:  return keyType.BACK;
-    case symbols.EVAL:  return keyType.EVAL;
-    case symbols.RESET: return keyType.RESET;
+    case symbol.SIGN:  return keyType.SIGN;
+    case symbol.POINT: return keyType.POINT;
+    case symbol.BACK:  return keyType.BACK;
+    case symbol.EVAL:  return keyType.EVAL;
+    case symbol.RESET: return keyType.RESET;
   }
 }
 
