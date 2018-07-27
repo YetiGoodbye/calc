@@ -1,10 +1,14 @@
 import createExportableConstants from 'Utils/createExportableConstants';
 
+// ACC - accumulator
+// ARG - argument
+// OP  - operator
 const stateNames = createExportableConstants([
   'INIT',
   'READ_ACC',
   'READ_OP',
   'READ_ARG',
+  'ERROR',
 ]);
 
 const actionNames = createExportableConstants([

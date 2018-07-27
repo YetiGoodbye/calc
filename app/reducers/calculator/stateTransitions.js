@@ -8,7 +8,11 @@ import {
   keyTypes    as keyType
 } from './constants';
 
-const transitionRoutes = {
+const ERROR_ROUTE = 'ERROR_ROUTE';
+
+
+// When receive a key each state perform some actions and switches itself to next state. That is called route
+const normalRoutes = {
   [state.INIT]:{
     [keyType.DIGIT]:       [action.INIT_READ_ACC_DIGIT, state.READ_ACC],
     [keyType.SIGN]:        [action.INIT_READ_ACC_SIGN,  state.READ_ACC],
@@ -44,15 +48,32 @@ const transitionRoutes = {
     [keyType.SIGN]:     [action.READ_ARG_SIGN,        state.READ_ARG],
     [keyType.POINT]:    [action.READ_ARG_POINT,       state.READ_ARG],
     [keyType.BACK]:     [action.READ_ARG_BACK,        state.READ_ARG],
-    [keyType.OPERATOR]: [action.EVAL, action.READ_OP, action.VALIDATE_RESULT, state.READ_OP], ///!!!!!!!!!!!!!!!!! VALIDATE_RESULT
+    [keyType.OPERATOR]: [action.EVAL, action.READ_OP, action.VALIDATE_RESULT, state.READ_OP],
     [keyType.EVAL]:     [action.EVAL, action.VALIDATE_RESULT,                 state.INIT],
     [keyType.RESET]:    [action.RESET_STATE,          state.INIT],
   },
+
+  [state.ERROR]: {
+    [keyType.DIGIT]:    [state.ERROR],
+    [keyType.SIGN]:     [state.ERROR],
+    [keyType.POINT]:    [state.ERROR],
+    [keyType.BACK]:     [state.ERROR],
+    [keyType.OPERATOR]: [state.ERROR],
+    [keyType.EVAL]:     [state.ERROR],
+    [keyType.RESET]:    [action.RESET_STATE, state.INIT],
+  }
 };
 
+// Each action can alter normal route. In this case action returns alternative route name
+const alternativeRoutes = {
+  [ERROR_ROUTE]: [state.ERROR],
+};
+
+// Counts digits in string
 const digitsCount = (string) => (string.split(/[-.]/).join('').length);
 
-const transitionActions = {
+
+const actions = {
 
   [action.INIT_READ_ACC_DIGIT]: (state, key) => { state.acc = state.display = key; },
   [action.INIT_READ_ACC_SIGN]:  (state)      => { state.acc = state.display = `${-(+(state.acc))}`; },
@@ -132,17 +153,20 @@ const transitionActions = {
 
   [action.VALIDATE_RESULT]: (state) => {
     if(isNaN(+state.acc)){ /* in case of 0/0 */
-      state.acc = state.arg = '0';
+      // state.acc = state.arg = '0';
       state.display = '0[Err]';
+      return ERROR_ROUTE;
     }
     if(isFinite(+state.acc)){
       if(digitsCount(state.acc) > maxLen){
-        state.acc = state.arg = '0';
+        // state.acc = state.arg = '0';
         state.display = '0[Err]';
+        return ERROR_ROUTE;
       }
     } else {
       state.display = `0[${((+state.acc > 0)?'+':'-')}Inf]`;
-      state.acc = state.arg = '0';
+      // state.acc = state.arg = '0';
+      return ERROR_ROUTE;
     }
   },
 
@@ -173,22 +197,23 @@ const getKeyType = (key) => {
   }
 }
 
-export const doStateTransition = (state, key) => {
-console.group('----------------');
-  let actions = transitionRoutes [state.name] [getKeyType(key)];
-  let nextStateName = actions.pop();
-  
-  actions.forEach(
-    function(actionName){
-      console.log(actionName);
-      transitionActions[actionName](state, key);
-      console.log(state);
+// Walks through routing nodes (except last which is the next state name) and call actions.
+// If action returns value, then recursively switches to that route.
+// Finally return last node.
+const walkThrough = (route, state, key) => {
+  let i=0;
+  let alternativeRouteName;
+  while(i<route.length-1){
+    if (alternativeRouteName = actions [route[i++]] (state, key)){
+      return walkThrough(alternativeRoutes[alternativeRouteName], state, key);
     }
-  );
+  }
+  return route[i]; /*last node, next state name*/
+};
 
-  actions.push(nextStateName);
-console.groupEnd();
-  state.name = nextStateName;
+export const doStateTransition = (state, key) => {
+  let route = normalRoutes [state.name] [getKeyType(key)];
+  state.name = walkThrough(route, state, key);
   return state;
 };
 
