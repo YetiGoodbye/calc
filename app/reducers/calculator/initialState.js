@@ -6,6 +6,7 @@ const initialState = {
   arg: '0',
   op: '+',
   display: '0',
+  mem: 0,
 };
 
 export default initialState;

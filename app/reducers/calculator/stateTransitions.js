@@ -14,43 +14,59 @@ const ERROR_ROUTE = 'ERROR_ROUTE';
 // When receive a key each state perform some actions and switches itself to next state. That is called route
 const normalRoutes = {
   [state.INIT]:{
-    [keyType.DIGIT]:       [action.INIT_READ_ACC_DIGIT, state.READ_ACC],
-    [keyType.SIGN]:        [action.INIT_READ_ACC_SIGN,  state.READ_ACC],
-    [keyType.POINT]:       [action.INIT_READ_ACC_POINT, state.READ_ACC],
-    [keyType.BACK]:        [action.INIT_READ_ACC_BACK,  state.READ_ACC],
-    [keyType.OPERATOR]:    [action.READ_OP,             state.READ_OP],
-    [keyType.EVAL]:        [action.EVAL, action.VALIDATE_RESULT,               state.INIT],
-    [keyType.RESET]:       [action.RESET_STATE,         state.INIT],
+    [keyType.DIGIT]:       [action.INIT_READ_ACC_DIGIT,          state.READ_ACC],
+    [keyType.SIGN]:        [action.INIT_READ_ACC_SIGN,           state.READ_ACC],
+    [keyType.POINT]:       [action.INIT_READ_ACC_POINT,          state.READ_ACC],
+    [keyType.BACK]:        [action.INIT_READ_ACC_BACK,           state.READ_ACC],
+    [keyType.OPERATOR]:    [action.READ_OP,                      state.READ_OP],
+    [keyType.EVAL]:        [action.EVAL, action.VALIDATE_RESULT, state.INIT],
+    [keyType.RESET]:       [action.RESET_STATE,                  state.INIT],
+    [keyType.MEM_ADD]:     [action.MEM_ADD_ACC,                  state.INIT],
+    [keyType.MEM_SUB]:     [action.MEM_SUB_ACC,                  state.INIT],
+    [keyType.MEM_CLEAR]:   [action.MEM_CLEAR,                    state.INIT],
+    [keyType.MEM_RESTORE]: [action.MEM_RESTORE_ACC,              state.INIT],
   },
 
   [state.READ_ACC]: {
-    [keyType.DIGIT]:       [action.READ_ACC_DIGIT, state.READ_ACC],
-    [keyType.SIGN]:        [action.READ_ACC_SIGN,  state.READ_ACC],
-    [keyType.POINT]:       [action.READ_ACC_POINT, state.READ_ACC],
-    [keyType.BACK]:        [action.READ_ACC_BACK,  state.READ_ACC],
-    [keyType.OPERATOR]:    [action.READ_OP,        state.READ_OP],
-    [keyType.EVAL]:        [action.EVAL, action.VALIDATE_RESULT,           state.INIT],
-    [keyType.RESET]:       [action.RESET_STATE,    state.INIT],
+    [keyType.DIGIT]:       [action.READ_ACC_DIGIT,               state.READ_ACC],
+    [keyType.SIGN]:        [action.READ_ACC_SIGN,                state.READ_ACC],
+    [keyType.POINT]:       [action.READ_ACC_POINT,               state.READ_ACC],
+    [keyType.BACK]:        [action.READ_ACC_BACK,                state.READ_ACC],
+    [keyType.OPERATOR]:    [action.READ_OP,                      state.READ_OP],
+    [keyType.EVAL]:        [action.EVAL, action.VALIDATE_RESULT, state.INIT],
+    [keyType.RESET]:       [action.RESET_STATE,                  state.INIT],
+    [keyType.MEM_ADD]:     [action.MEM_ADD_ACC,                  state.INIT],
+    [keyType.MEM_SUB]:     [action.MEM_SUB_ACC,                  state.INIT],
+    [keyType.MEM_CLEAR]:   [action.MEM_CLEAR,                    state.INIT],
+    [keyType.MEM_RESTORE]: [action.MEM_RESTORE_ACC,              state.INIT],
   },
 
   [state.READ_OP]: {
-    [keyType.DIGIT]:    [action.INIT_READ_ARG_DIGIT,           state.READ_ARG],
-    [keyType.SIGN]:     [action.INIT_READ_ARG_SIGN,            state.READ_ARG],
-    [keyType.POINT]:    [action.INIT_READ_ARG_POINT,           state.READ_ARG],
-    [keyType.BACK]:     [action.INIT_READ_ARG_BACK,            state.READ_ARG],
-    [keyType.OPERATOR]: [action.READ_OP,                       state.READ_OP],
-    [keyType.EVAL]:     [action.EVAL_WITHOUT_ARG, action.EVAL, action.VALIDATE_RESULT, state.READ_ACC],
-    [keyType.RESET]:    [action.RESET_STATE,                   state.INIT],
+    [keyType.DIGIT]:       [action.INIT_READ_ARG_DIGIT,                                   state.READ_ARG],
+    [keyType.SIGN]:        [action.INIT_READ_ARG_SIGN,                                    state.READ_ARG],
+    [keyType.POINT]:       [action.INIT_READ_ARG_POINT,                                   state.READ_ARG],
+    [keyType.BACK]:        [action.INIT_READ_ARG_BACK,                                    state.READ_ARG],
+    [keyType.OPERATOR]:    [action.READ_OP,                                               state.READ_OP],
+    [keyType.EVAL]:        [action.EVAL_WITHOUT_ARG, action.EVAL, action.VALIDATE_RESULT, state.READ_ACC],
+    [keyType.RESET]:       [action.RESET_STATE,                                           state.INIT],
+    [keyType.MEM_ADD]:     [action.MEM_ADD_ARG,                                           state.INIT],
+    [keyType.MEM_SUB]:     [action.MEM_SUB_ARG,                                           state.INIT],
+    [keyType.MEM_CLEAR]:   [action.MEM_CLEAR,                                             state.INIT],
+    [keyType.MEM_RESTORE]: [action.MEM_RESTORE_ARG,                                       state.INIT],
   },
 
   [state.READ_ARG]: {
-    [keyType.DIGIT]:    [action.READ_ARG_DIGIT,       state.READ_ARG],
-    [keyType.SIGN]:     [action.READ_ARG_SIGN,        state.READ_ARG],
-    [keyType.POINT]:    [action.READ_ARG_POINT,       state.READ_ARG],
-    [keyType.BACK]:     [action.READ_ARG_BACK,        state.READ_ARG],
-    [keyType.OPERATOR]: [action.EVAL, action.READ_OP, action.VALIDATE_RESULT, state.READ_OP],
-    [keyType.EVAL]:     [action.EVAL, action.VALIDATE_RESULT,                 state.INIT],
-    [keyType.RESET]:    [action.RESET_STATE,          state.INIT],
+    [keyType.DIGIT]:       [action.READ_ARG_DIGIT,                               state.READ_ARG],
+    [keyType.SIGN]:        [action.READ_ARG_SIGN,                                state.READ_ARG],
+    [keyType.POINT]:       [action.READ_ARG_POINT,                               state.READ_ARG],
+    [keyType.BACK]:        [action.READ_ARG_BACK,                                state.READ_ARG],
+    [keyType.OPERATOR]:    [action.EVAL, action.READ_OP, action.VALIDATE_RESULT, state.READ_OP],
+    [keyType.EVAL]:        [action.EVAL, action.VALIDATE_RESULT,                 state.INIT],
+    [keyType.RESET]:       [action.RESET_STATE,                                  state.INIT],
+    [keyType.MEM_ADD]:     [action.MEM_ADD_ARG,                                  state.INIT],
+    [keyType.MEM_SUB]:     [action.MEM_SUB_ARG,                                  state.INIT],
+    [keyType.MEM_CLEAR]:   [action.MEM_CLEAR,                                    state.INIT],
+    [keyType.MEM_RESTORE]: [action.MEM_RESTORE_ARG,                              state.INIT],
   },
 
   [state.ERROR]: {
@@ -61,6 +77,10 @@ const normalRoutes = {
     [keyType.OPERATOR]: [state.ERROR],
     [keyType.EVAL]:     [state.ERROR],
     [keyType.RESET]:    [action.RESET_STATE, state.INIT],
+    [keyType.MEM_ADD]:     [state.ERROR],
+    [keyType.MEM_SUB]:     [state.ERROR],
+    [keyType.MEM_CLEAR]:   [state.ERROR],
+    [keyType.MEM_RESTORE]: [state.ERROR],
   }
 };
 
@@ -177,6 +197,14 @@ const actions = {
     state.display = initialState.display;
     state.name = initialState.name;
   },
+
+  [action.MEM_ADD_ACC]:     (state) => {state.mem += +state.acc},
+  [action.MEM_ADD_ARG]:     (state) => {state.mem += +state.arg},
+  [action.MEM_SUB_ACC]:     (state) => {state.mem -= +state.acc},
+  [action.MEM_SUB_ARG]:     (state) => {state.mem -= +state.arg},
+  [action.MEM_RESTORE_ACC]: (state) => {state.display = state.acc = `${state.mem}`},
+  [action.MEM_RESTORE_ARG]: (state) => {state.display = state.arg = `${state.mem}`},
+  [action.MEM_CLEAR]:       (state) => {state.mem = 0},
 };
 
 const digits = [
@@ -189,11 +217,15 @@ const getKeyType = (key) => {
   if(digits.includes(key)) return keyType.DIGIT;
   if(operators.includes(key)) return keyType.OPERATOR;
   switch(key){
-    case symbol.SIGN:  return keyType.SIGN;
-    case symbol.POINT: return keyType.POINT;
-    case symbol.BACK:  return keyType.BACK;
-    case symbol.EVAL:  return keyType.EVAL;
-    case symbol.RESET: return keyType.RESET;
+    case symbol.SIGN:        return keyType.SIGN;
+    case symbol.POINT:       return keyType.POINT;
+    case symbol.BACK:        return keyType.BACK;
+    case symbol.EVAL:        return keyType.EVAL;
+    case symbol.RESET:       return keyType.RESET;
+    case symbol.MEM_ADD:     return keyType.MEM_ADD;
+    case symbol.MEM_SUB:     return keyType.MEM_SUB;
+    case symbol.MEM_CLEAR:   return keyType.MEM_CLEAR;
+    case symbol.MEM_RESTORE: return keyType.MEM_RESTORE;
   }
 }
 
