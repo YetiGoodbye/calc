@@ -34,6 +34,7 @@ const actionNames = createExportableConstants([
   'EVAL_WITHOUT_ARG',
   'EVAL_BY_OPERATOR',
   
+  'VALIDATE_RESULT',
   'RESET_STATE',
 ]);
 

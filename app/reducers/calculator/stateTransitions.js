@@ -1,4 +1,4 @@
-import {SYMBOLS as symbol} from 'Constants';
+import {SYMBOLS as symbol, MAX_DISPLAY_DIGITS as maxLen} from 'Constants';
 import initialState from './initialState';
 import shallowCopy from 'Utils/shallowCopy';
 
@@ -8,10 +8,6 @@ import {
   keyTypes    as keyType
 } from './constants';
 
-///!!!
-const MAXLEN = 10;
-
-
 const transitionRoutes = {
   [state.INIT]:{
     [keyType.DIGIT]:       [action.INIT_READ_ACC_DIGIT, state.READ_ACC],
@@ -19,7 +15,7 @@ const transitionRoutes = {
     [keyType.POINT]:       [action.INIT_READ_ACC_POINT, state.READ_ACC],
     [keyType.BACK]:        [action.INIT_READ_ACC_BACK,  state.READ_ACC],
     [keyType.OPERATOR]:    [action.READ_OP,             state.READ_OP],
-    [keyType.EVAL]:        [action.EVAL,                state.READ_ACC],
+    [keyType.EVAL]:        [action.EVAL, action.VALIDATE_RESULT,               state.INIT],
     [keyType.RESET]:       [action.RESET_STATE,         state.INIT],
   },
 
@@ -29,45 +25,51 @@ const transitionRoutes = {
     [keyType.POINT]:       [action.READ_ACC_POINT, state.READ_ACC],
     [keyType.BACK]:        [action.READ_ACC_BACK,  state.READ_ACC],
     [keyType.OPERATOR]:    [action.READ_OP,        state.READ_OP],
-    [keyType.EVAL]:        [action.EVAL,           state.INIT],
+    [keyType.EVAL]:        [action.EVAL, action.VALIDATE_RESULT,           state.INIT],
     [keyType.RESET]:       [action.RESET_STATE,    state.INIT],
   },
 
   [state.READ_OP]: {
-    [keyType.DIGIT]:    [action.INIT_READ_ARG_DIGIT,                state.READ_ARG],
-    [keyType.SIGN]:     [action.INIT_READ_ARG_SIGN,                 state.READ_ARG],
-    [keyType.POINT]:    [action.INIT_READ_ARG_POINT,                state.READ_ARG],
-    [keyType.BACK]:     [action.INIT_READ_ARG_BACK,                 state.READ_ARG],
+    [keyType.DIGIT]:    [action.INIT_READ_ARG_DIGIT,           state.READ_ARG],
+    [keyType.SIGN]:     [action.INIT_READ_ARG_SIGN,            state.READ_ARG],
+    [keyType.POINT]:    [action.INIT_READ_ARG_POINT,           state.READ_ARG],
+    [keyType.BACK]:     [action.INIT_READ_ARG_BACK,            state.READ_ARG],
     [keyType.OPERATOR]: [action.READ_OP,                       state.READ_OP],
-    [keyType.EVAL]:     [action.EVAL_WITHOUT_ARG, action.EVAL, state.READ_ACC],
+    [keyType.EVAL]:     [action.EVAL_WITHOUT_ARG, action.EVAL, action.VALIDATE_RESULT, state.READ_ACC],
     [keyType.RESET]:    [action.RESET_STATE,                   state.INIT],
   },
 
   [state.READ_ARG]: {
-    [keyType.DIGIT]:    [action.READ_ARG_DIGIT,                   state.READ_ARG],
-    [keyType.SIGN]:     [action.READ_ARG_SIGN,                    state.READ_ARG],
-    [keyType.POINT]:    [action.READ_ARG_POINT,                   state.READ_ARG],
-    [keyType.BACK]:     [action.READ_ARG_BACK,                    state.READ_ARG],
-    [keyType.OPERATOR]: [action.EVAL_BY_OPERATOR, action.READ_OP, state.READ_OP],
-    [keyType.EVAL]:     [action.EVAL,                             state.INIT],
-    [keyType.RESET]:    [action.RESET_STATE,                      state.INIT],
+    [keyType.DIGIT]:    [action.READ_ARG_DIGIT,       state.READ_ARG],
+    [keyType.SIGN]:     [action.READ_ARG_SIGN,        state.READ_ARG],
+    [keyType.POINT]:    [action.READ_ARG_POINT,       state.READ_ARG],
+    [keyType.BACK]:     [action.READ_ARG_BACK,        state.READ_ARG],
+    [keyType.OPERATOR]: [action.EVAL, action.READ_OP, action.VALIDATE_RESULT, state.READ_OP], ///!!!!!!!!!!!!!!!!! VALIDATE_RESULT
+    [keyType.EVAL]:     [action.EVAL, action.VALIDATE_RESULT,                 state.INIT],
+    [keyType.RESET]:    [action.RESET_STATE,          state.INIT],
   },
 };
+
+const digitsCount = (string) => (string.split(/[-.]/).join('').length);
 
 const transitionActions = {
 
   [action.INIT_READ_ACC_DIGIT]: (state, key) => { state.acc = state.display = key; },
-  [action.INIT_READ_ACC_SIGN]:  (state) => { state.acc = state.display = `${-(+(state.display))}`; },
-  [action.INIT_READ_ACC_POINT]: (state) => { state.acc = state.display = '0.'; },
-  [action.INIT_READ_ACC_BACK]:  (state) => { state.acc = state.display = '0'; },
+  [action.INIT_READ_ACC_SIGN]:  (state)      => { state.acc = state.display = `${-(+(state.acc))}`; },
+  [action.INIT_READ_ACC_POINT]: (state)      => { state.acc = state.display = '0.'; },
+  [action.INIT_READ_ACC_BACK]:  (state)      => { state.acc = state.display = '0'; },
+
+  [action.INIT_READ_ARG_DIGIT]: (state, key) => { state.arg = state.display = key; },
+  [action.INIT_READ_ARG_SIGN]:  (state)      => { state.arg = state.display = '0'; },
+  [action.INIT_READ_ARG_POINT]: (state)      => { state.arg = state.display = '0.'; },
+  [action.INIT_READ_ARG_BACK]:  (state)      => { state.arg = state.display = '0'; },
   
   [action.READ_ACC_DIGIT]: (state, key) => {
     if(state.acc === '0'){
       state.display = state.acc = key;
     } else {
-      let text = state.acc + key;
-      if(text.split(/[-.]/).join('').length <= MAXLEN)
-        state.acc = state.display = text;
+      if(digitsCount(state.acc + key) > maxLen) return;
+      state.acc = state.display = state.acc + key;
     }
   },
 
@@ -77,29 +79,23 @@ const transitionActions = {
   },
 
   [action.READ_ACC_POINT]: (state) => {  
-    if(!isNaN(+`${state.acc}.`))
-      state.display = state.acc = `${state.acc}.`;
+    if( isNaN(+`${state.acc}.`) || digitsCount(state.acc) === maxLen ) return;
+    state.display = state.acc = `${state.acc}.`;
   },
 
   [action.READ_ACC_BACK]: (state) => {
     state.acc = state.acc.slice(0, -1);
-    if(state.acc === '' || isNaN(+state.acc))
+    if(state.acc === '' || isNaN(+state.acc)) /*isNaN in case of '-'*/
       state.acc = '0';
     state.display = state.acc;
   },
 
-  [action.INIT_READ_ARG_DIGIT]: (state, key) => { state.arg = state.display = key; },
-  [action.INIT_READ_ARG_SIGN]:  (state) => { state.arg = state.display = '0'; },
-  [action.INIT_READ_ARG_POINT]: (state) => { state.arg = state.display = '0.'; },
-  [action.INIT_READ_ARG_BACK]:  (state) => { state.arg = state.display = '0'; },
-  
   [action.READ_ARG_DIGIT]: (state, key) => {
     if(state.arg === '0'){
       state.display = state.arg = key;
     } else {
-      let text = state.arg + key;
-      if(text.split(/[-.]/).join('').length <= MAXLEN)
-        state.arg = state.display = text;
+      if(digitsCount(state.arg + key) > maxLen) return;
+      state.arg = state.display = state.arg + key;
     }
   },
 
@@ -109,31 +105,18 @@ const transitionActions = {
   },
 
   [action.READ_ARG_POINT]: (state) => {  
-    if(!isNaN(+`${state.arg}.`))
-      state.display = state.arg = `${state.arg}.`;
+    if( isNaN(+`${state.arg}.`) || digitsCount(state.arg) === maxLen ) return;
+    state.display = state.arg = `${state.arg}.`;
   },
 
   [action.READ_ARG_BACK]: (state) => {
     state.arg = state.arg.slice(0, -1);
-    if(state.arg === '' || isNaN(+state.arg))
+    if(state.arg === '' || isNaN(+state.arg)) /*isNaN in case of '-'*/
       state.arg = '0';
     state.display = state.arg;
   },
 
-  [action.EVAL_BY_OPERATOR]: (state) => {
-    switch(state.op){
-      case symbol.PLUS:  state.acc = `${+state.acc + +state.arg}`; break;
-      case symbol.MINUS: state.acc = `${+state.acc - +state.arg}`; break;
-      case symbol.MUL:   state.acc = `${+state.acc * +state.arg}`; break;
-      case symbol.DIV:   state.acc = `${+state.acc / +state.arg}`; break;
-    }
-    state.display = state.acc;
-  },
-
-
-
-  [action.EVAL_WITHOUT_ARG]: (state) => {state.arg = state.acc},
-
+  [action.READ_OP]: (state, key) => {state.op = key},
 
   [action.EVAL]: (state) => {
      switch(state.op){
@@ -145,8 +128,23 @@ const transitionActions = {
     state.display = state.acc;
   },
 
+  [action.EVAL_WITHOUT_ARG]: (state) => {state.arg = state.acc},
 
-  [action.READ_OP]: (state, key) => {state.op = key},
+  [action.VALIDATE_RESULT]: (state) => {
+    if(isNaN(+state.acc)){ /* in case of 0/0 */
+      state.acc = state.arg = '0';
+      state.display = '0[Err]';
+    }
+    if(isFinite(+state.acc)){
+      if(digitsCount(state.acc) > maxLen){
+        state.acc = state.arg = '0';
+        state.display = '0[Err]';
+      }
+    } else {
+      state.display = `0[${((+state.acc > 0)?'+':'-')}Inf]`;
+      state.acc = state.arg = '0';
+    }
+  },
 
   [action.RESET_STATE]: (state) => {
     state.acc = initialState.acc;

@@ -7,6 +7,9 @@ const SYMBOLS = {
   MEM_ADD: 'M+', MEM_SUB: 'M-', MEM_CLEAR: 'MC', MEM_RESTORE: 'MR',  
 };
 
+const MAX_DISPLAY_DIGITS = 10;
+
 export {
-  SYMBOLS
+  SYMBOLS,
+  MAX_DISPLAY_DIGITS,
 };

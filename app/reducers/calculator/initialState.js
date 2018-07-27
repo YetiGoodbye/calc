@@ -2,8 +2,8 @@ import {stateNames} from './constants';
 
 const initialState = {
   name: stateNames.INIT,
-  acc: '',
-  arg: '',
+  acc: '0',
+  arg: '0',
   op: '+',
   display: '0',
 };
