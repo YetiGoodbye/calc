@@ -56,6 +56,39 @@ const buttonClasses = {
   [SM.EVAL]:        buttonClass({row: 4, col: 4}),
 }
 
+const keysMap = {
+  '0': SM.D0,
+  '1': SM.D1,
+  '2': SM.D2,
+  '3': SM.D3,
+  '4': SM.D4,
+  '5': SM.D5,
+  '6': SM.D6,
+  '7': SM.D7,
+  '8': SM.D8,
+  '9': SM.D9,
+  '*': SM.MUL,
+  '/': SM.DIV,
+  'a': SM.MEM_ADD,
+  's': SM.MEM_SUB,
+  'r': SM.MEM_RESTORE,
+  'e': SM.MEM_CLEAR,
+  'c': SM.RESET,
+  '+': SM.PLUS,
+  '-': SM.MINUS,
+  '.': SM.POINT,
+  '`': SM.SIGN,
+  '=': SM.EVAL,
+  'backspace': SM.BACK,
+  'enter': SM.EVAL,
+};
+
+const acceptableKeys =[
+  '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+  '+', '-', '*', '/', '.', '`'/*for sign change*/, '', '', '', '',
+   '', '', '', '',
+]
+
 class Calculator extends React.Component {
 
   constructor(props){
@@ -80,8 +113,11 @@ class Calculator extends React.Component {
   }
 
   handleKey(e){
-    #- console.log('receiveKey by key press ' + e.key);
     #- console.dir(e.key);
+    let key = keysMap[e.key.toLowerCase()];
+    if(!key) return;
+    #- console.log('receiveKey by key press ' + key);
+    this.props.calcReceiveKey(key);
   }
 
   render(){
