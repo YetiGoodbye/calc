@@ -5,6 +5,8 @@ import classes from 'Config/namespace.scss';
 import {getCaclucatorDisplay} from 'Reducers';
 import {calcReceiveKey} from 'Actions';
 
+#- import debugWrapCall from 'Utils/debugWrapCall';
+
 import './index.scss';
 
 import Button from 'Components/Button';
@@ -59,23 +61,32 @@ class Calculator extends React.Component {
   constructor(props){
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.handleKey = this.handleKey.bind(this);
+    #- this.handleClick = debugWrapCall(this.handleClick);
+    #- this.handleKey = debugWrapCall(this.handleKey);
   }
 
   handleClick(e){
     let key = e.target.getAttribute("data-button-name");
+    
     if(!key) return;
-    // console.log(this.props.calcReceiveKey);
     this.props.calcReceiveKey(key);
+  }
+
+  handleKey(e){
+    #- console.dir(e.key);
   }
 
   render(){
     // console.log("Calculator: ", this.props.display);
     return (
-      <div className={CLS}>
+      <div className={CLS}
+        tabIndex='0'
+        onKeyDown={this.handleKey} >
         <div className={CLS_DISPLAY}>
           <label className={CLS_RESULT}>{this.props.display}</label>
         </div>
-        <div  className={CLS_KEYPAD} onClick={this.handleClick} >
+        <div className={CLS_KEYPAD} onClick={this.handleClick} >
           {
             Object.keys(buttonClasses).map( (buttonName) => {
               let buttonClass = buttonClasses[buttonName];
