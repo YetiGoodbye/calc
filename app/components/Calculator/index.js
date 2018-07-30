@@ -120,16 +120,20 @@ class Calculator extends React.Component {
     this.props.calcReceiveKey(key);
   }
 
+  componentDidMount(){
+    this.keyReceiver.focus();
+  }
+
   render(){
-    // console.log("Calculator: ", this.props.display);
     return (
       <div className={CLS}
         tabIndex='0'
-        onKeyDown={this.handleKey} >
+        onKeyDown={this.handleKey}
+        ref={(elem)=>{this.keyReceiver = elem;}} >
         <div className={CLS_DISPLAY}>
           <label className={CLS_RESULT}>{this.props.display}</label>
         </div>
-        <div className={CLS_KEYPAD} onClick={this.handleClick} >
+        <div className={CLS_KEYPAD} onClick={this.handleClick}>
           {
             Object.keys(buttonClasses).map( (buttonName) => {
               let buttonClass = buttonClasses[buttonName];
