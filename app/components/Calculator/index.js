@@ -67,13 +67,20 @@ class Calculator extends React.Component {
   }
 
   handleClick(e){
+    // little hack
+    // it means that keyboard (not mouse) was pressed
+    if(e.screenX === 0 && e.screenY === 0) return;
+
+    // it means keypad div (not button) has triggered event
     let key = e.target.getAttribute("data-button-name");
-    
     if(!key) return;
+
+    #- console.log('receiveKey by click ' + key);
     this.props.calcReceiveKey(key);
   }
 
   handleKey(e){
+    #- console.log('receiveKey by key press ' + e.key);
     #- console.dir(e.key);
   }
 
