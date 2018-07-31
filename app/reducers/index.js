@@ -1,15 +1,15 @@
 import {combineReducers} from 'redux';
-import calculator, * as calculatorSelectors from './calculator';
+import simpleCalc, * as simpleCalcSelectors from './simpleCalc';
 
 export default combineReducers({
-  calculator,
+  simpleCalc,
 });
 
 // const getCalculatorState = (state) => (state.calculator);
-const getCalculationResult     = (state) => calculatorSelectors.getResult(state.calculator);
-const getDisplayOperations = (state) => calculatorSelectors.getOperations(state.calculator);
+const getSimpleCalcResult     = (state) => simpleCalcSelectors.getResult(state.simpleCalc);
+const getSimpleCalcOperations = (state) => simpleCalcSelectors.getOperations(state.simpleCalc);
 
 export {
-  getCalculationResult,
-  getDisplayOperations,
+  getSimpleCalcResult,
+  getSimpleCalcOperations,
 };

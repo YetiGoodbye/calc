@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import classes from 'Config/namespace.scss';
 
-import {getCalculationResult, getDisplayOperations} from 'Reducers';
+import {getSimpleCalcResult, getSimpleCalcOperations} from 'Reducers';
 import {calcReceiveKey} from 'Actions';
 
 #- import debugWrapCall from 'Utils/debugWrapCall';
@@ -57,29 +57,12 @@ const buttonClasses = {
 }
 
 const keysMap = {
-  '0': SM.D0,
-  '1': SM.D1,
-  '2': SM.D2,
-  '3': SM.D3,
-  '4': SM.D4,
-  '5': SM.D5,
-  '6': SM.D6,
-  '7': SM.D7,
-  '8': SM.D8,
-  '9': SM.D9,
-  '*': SM.MUL,
-  '/': SM.DIV,
-  'a': SM.MEM_ADD,
-  's': SM.MEM_SUB,
-  'r': SM.MEM_RESTORE,
-  'e': SM.MEM_CLEAR,
-  'c': SM.RESET,
-  '+': SM.PLUS,
-  '-': SM.MINUS,
-  '.': SM.POINT,
-  '`': SM.SIGN,
-  '=': SM.EVAL,
-  'backspace': SM.BACK,
+  '0': SM.D0, '1': SM.D1, '2': SM.D2, '3': SM.D3, '4': SM.D4,
+  '5': SM.D5, '6': SM.D6, '7': SM.D7, '8': SM.D8, '9': SM.D9,
+  '.': SM.POINT, '`': SM.SIGN, 'backspace': SM.BACK,
+  '=': SM.EVAL, '+': SM.PLUS, '-': SM.MINUS, '*': SM.MUL, '/': SM.DIV,
+  'a': SM.MEM_ADD,'s': SM.MEM_SUB, 'r': SM.MEM_RESTORE, 'e': SM.MEM_CLEAR,
+  'c': SM.RESET,  
   'enter': SM.EVAL,
 };
 
@@ -154,8 +137,8 @@ class Calculator extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  result: getCalculationResult(state),
-  operations: getDisplayOperations(state),
+  result: getSimpleCalcResult(state),
+  operations: getSimpleCalcOperations(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
