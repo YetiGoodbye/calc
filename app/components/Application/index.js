@@ -6,7 +6,7 @@ import TopLayout  from 'Components/TopLayout';
 import Menu       from 'Components/Menu';
 import Header     from 'Components/Header';
 import Logon      from 'Components/Logon';
-import SimpleCalculator from 'Components/SimpleCalculator';
+import EngineerCalculator from 'Components/EngineerCalculator';
 
 import './index.scss';
 
@@ -18,7 +18,7 @@ const Application = () => {
       <Header     key='header' />
       <Menu       key='menu' />
       <Logon      key='logon' />
-      <SimpleCalculator key='content' />
+      <EngineerCalculator key='content' />
     </TopLayout>
   );
 }
