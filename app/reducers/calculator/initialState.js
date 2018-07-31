@@ -5,7 +5,8 @@ const initialState = {
   acc: '0',
   arg: '0',
   op: '+',
-  display: '0',
+  result: '0',
+  operations: '0',
   mem: 0,
 };
 

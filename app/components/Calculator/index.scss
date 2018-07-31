@@ -21,12 +21,13 @@
 }
 
 .#{$Calculator}--operations {
+  /*display: none;*/
   height: $calcOperationsHeightPx;
   width: 100%;
-  font-family: 'Gaegu';
-  font-size: 20px;
+  font-family: 'Orbitron';
+  font-size: 14px;
   text-align: right;
-  padding-right: 10px;
+  padding: 5px 10px 0 0;
 }
 
 .#{$Calculator}--result {

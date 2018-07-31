@@ -21,9 +21,9 @@ const calculator = (state = initialState, action) => {
 export default calculator;
 
 // SELECTORS
-const getDisplay = (state) => {
-  return state.display;
-};
+const getResult = (state) => (state.result);
 
-export {getDisplay};
+const getOperations = (state) => (state.operations);
+
+export {getResult, getOperations};
 

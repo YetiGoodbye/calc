@@ -14,54 +14,162 @@ const ERROR_ROUTE = 'ERROR_ROUTE';
 // When receive a key each state perform some actions and switches itself to next state. That is called route
 const normalRoutes = {
   [state.INIT]:{
-    [keyType.DIGIT]:       [action.INIT_READ_ACC_DIGIT,          state.READ_ACC],
-    [keyType.SIGN]:        [action.INIT_READ_ACC_SIGN,           state.READ_ACC],
-    [keyType.POINT]:       [action.INIT_READ_ACC_POINT,          state.READ_ACC],
-    [keyType.BACK]:        [action.INIT_READ_ACC_BACK,           state.READ_ACC],
-    [keyType.OPERATOR]:    [action.READ_OP,                      state.READ_OP],
-    [keyType.EVAL]:        [action.EVAL, action.VALIDATE_RESULT, state.INIT],
-    [keyType.RESET]:       [action.RESET_STATE,                  state.INIT],
-    [keyType.MEM_ADD]:     [action.MEM_ADD_ACC,                  state.INIT],
-    [keyType.MEM_SUB]:     [action.MEM_SUB_ACC,                  state.INIT],
-    [keyType.MEM_CLEAR]:   [action.MEM_CLEAR,                    state.INIT],
-    [keyType.MEM_RESTORE]: [action.MEM_RESTORE_ACC,              state.INIT],
+    [keyType.DIGIT]: [
+      action.READ_FIRST_DIGIT_TO_ACC,
+      action.SET_DISPLAY_RESULT_ACC,
+      action.SET_DISPLAY_OPERATIONS_ACC,
+      state.READ_ACC],
+    [keyType.SIGN]: [
+      action.READ_FIST_SIGN_TO_ACC,
+      action.SET_DISPLAY_RESULT_ACC,
+      action.SET_DISPLAY_OPERATIONS_ACC,
+      state.READ_ACC],
+    [keyType.POINT]: [
+      action.READ_FIST_POINT_TO_ACC,
+      action.SET_DISPLAY_RESULT_ACC,
+      action.SET_DISPLAY_OPERATIONS_ACC,
+      state.READ_ACC],
+    [keyType.BACK]: [
+      action.INIT_READ_NEXT_BACK_TO_ACC,
+      action.SET_DISPLAY_RESULT_ACC,
+      action.SET_DISPLAY_OPERATIONS_ACC,
+      state.READ_ACC],
+    [keyType.OPERATOR]: [
+      action.READ_OPERATOR,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP,
+      state.READ_OP],
+    [keyType.EVAL]: [
+      action.SET_DISPLAY_OPERATIONS_ACC_OP_ARG,
+      action.EVAL,
+      action.VALIDATE_RESULT,
+      action.SET_DISPLAY_RESULT_ACC,
+      state.INIT],
+    [keyType.RESET]:       [action.RESET_STATE, state.INIT],
+    [keyType.MEM_ADD]:     [action.MEM_ADD_ACC, state.INIT],
+    [keyType.MEM_SUB]:     [action.MEM_SUB_ACC, state.INIT],
+    [keyType.MEM_CLEAR]:   [action.MEM_CLEAR,   state.INIT],
+    [keyType.MEM_RESTORE]: [
+      action.MEM_RESTORE_ACC,
+      action.SET_DISPLAY_RESULT_ACC,
+      action.SET_DISPLAY_OPERATIONS_ACC,
+      state.INIT],
   },
 
   [state.READ_ACC]: {
-    [keyType.DIGIT]:       [action.READ_ACC_DIGIT,               state.READ_ACC],
-    [keyType.SIGN]:        [action.READ_ACC_SIGN,                state.READ_ACC],
-    [keyType.POINT]:       [action.READ_ACC_POINT,               state.READ_ACC],
-    [keyType.BACK]:        [action.READ_ACC_BACK,                state.READ_ACC],
-    [keyType.OPERATOR]:    [action.READ_OP,                      state.READ_OP],
-    [keyType.EVAL]:        [action.EVAL, action.VALIDATE_RESULT, state.INIT],
+    [keyType.DIGIT]: [
+      action.READ_NEXT_DIGIT_TO_ACC,
+      action.SET_DISPLAY_RESULT_ACC,
+      action.SET_DISPLAY_OPERATIONS_ACC,
+      state.READ_ACC],
+    [keyType.SIGN]: [
+      action.READ_NEXT_SIGN_TO_ACC,
+      action.SET_DISPLAY_RESULT_ACC,
+      action.SET_DISPLAY_OPERATIONS_ACC,
+      state.READ_ACC],
+    [keyType.POINT]: [
+      action.READ_NEXT_POINT_TO_ACC,
+      action.SET_DISPLAY_RESULT_ACC,
+      action.SET_DISPLAY_OPERATIONS_ACC,
+      state.READ_ACC],
+    [keyType.BACK]: [
+      action.READ_NEXT_BACK_TO_ACC,
+      action.SET_DISPLAY_RESULT_ACC,
+      action.SET_DISPLAY_OPERATIONS_ACC,
+      state.READ_ACC],
+    [keyType.OPERATOR]: [
+      action.NORMALIZE_ACC,
+      action.SET_DISPLAY_RESULT_ACC,
+      action.READ_OPERATOR,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP,
+      state.READ_OP],
+
+    [keyType.EVAL]:        [
+      action.EVAL,
+      action.VALIDATE_RESULT,
+      action.SET_DISPLAY_RESULT_ACC,
+      state.INIT],
     [keyType.RESET]:       [action.RESET_STATE,                  state.INIT],
     [keyType.MEM_ADD]:     [action.MEM_ADD_ACC,                  state.INIT],
     [keyType.MEM_SUB]:     [action.MEM_SUB_ACC,                  state.INIT],
     [keyType.MEM_CLEAR]:   [action.MEM_CLEAR,                    state.INIT],
-    [keyType.MEM_RESTORE]: [action.MEM_RESTORE_ACC,              state.INIT],
+    [keyType.MEM_RESTORE]: [
+      action.MEM_RESTORE_ACC,
+      action.SET_DISPLAY_RESULT_ACC,
+      action.SET_DISPLAY_OPERATIONS_ACC,
+      state.INIT],
   },
 
   [state.READ_OP]: {
-    [keyType.DIGIT]:       [action.INIT_READ_ARG_DIGIT,                                   state.READ_ARG],
-    [keyType.SIGN]:        [action.INIT_READ_ARG_SIGN,                                    state.READ_ARG],
-    [keyType.POINT]:       [action.INIT_READ_ARG_POINT,                                   state.READ_ARG],
-    [keyType.BACK]:        [action.INIT_READ_ARG_BACK,                                    state.READ_ARG],
-    [keyType.OPERATOR]:    [action.READ_OP,                                               state.READ_OP],
-    [keyType.EVAL]:        [action.EVAL_WITHOUT_ARG, action.EVAL, action.VALIDATE_RESULT, state.READ_ACC],
-    [keyType.RESET]:       [action.RESET_STATE,                                           state.INIT],
-    [keyType.MEM_ADD]:     [action.MEM_ADD_ARG,                                           state.INIT],
-    [keyType.MEM_SUB]:     [action.MEM_SUB_ARG,                                           state.INIT],
-    [keyType.MEM_CLEAR]:   [action.MEM_CLEAR,                                             state.INIT],
-    [keyType.MEM_RESTORE]: [action.MEM_RESTORE_ARG,                                       state.INIT],
+    [keyType.DIGIT]: [
+      action.READ_FIRST_DIGIT_TO_ARG,
+      action.SET_DISPLAY_RESULT_ARG,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP_ARG,
+      state.READ_ARG],
+    [keyType.SIGN]: [
+      action.READ_FIRST_SIGN_TO_ARG,
+      action.SET_DISPLAY_RESULT_ARG,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP_ARG,
+      state.READ_ARG],
+    [keyType.POINT]: [
+      action.READ_FIRST_POINT_TO_ARG,
+      action.SET_DISPLAY_RESULT_ARG,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP_ARG,
+      state.READ_ARG],
+    [keyType.BACK]: [
+      action.READ_FIRST_BACK_TO_ARG,
+      action.SET_DISPLAY_RESULT_ARG,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP_ARG,
+      state.READ_ARG],
+    [keyType.OPERATOR]: [
+      action.READ_OPERATOR,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP,
+      state.READ_OP],
+    [keyType.EVAL]: [
+      action.SET_IMPLICIT_ARG_TO_ACC,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP_ARG,
+      action.EVAL,
+      action.VALIDATE_RESULT,
+      action.SET_DISPLAY_RESULT_ACC,
+      state.INIT],
+    [keyType.RESET]:       [action.RESET_STATE,     state.INIT],
+    [keyType.MEM_ADD]:     [action.MEM_ADD_ACC,     state.READ_OP],
+    [keyType.MEM_SUB]:     [action.MEM_SUB_ACC,     state.READ_OP],
+    [keyType.MEM_CLEAR]:   [action.MEM_CLEAR,       state.READ_OP],
+    [keyType.MEM_RESTORE]: [action.MEM_RESTORE_ARG, state.READ_ARG],
   },
 
   [state.READ_ARG]: {
-    [keyType.DIGIT]:       [action.READ_ARG_DIGIT,                               state.READ_ARG],
-    [keyType.SIGN]:        [action.READ_ARG_SIGN,                                state.READ_ARG],
-    [keyType.POINT]:       [action.READ_ARG_POINT,                               state.READ_ARG],
-    [keyType.BACK]:        [action.READ_ARG_BACK,                                state.READ_ARG],
-    [keyType.OPERATOR]:    [action.EVAL, action.READ_OP, action.VALIDATE_RESULT, state.READ_OP],
-    [keyType.EVAL]:        [action.EVAL, action.VALIDATE_RESULT,                 state.INIT],
+    [keyType.DIGIT]: [
+      action.READ_NEXT_DIGIT_TO_ARG,
+      action.SET_DISPLAY_RESULT_ARG,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP_ARG,
+      state.READ_ARG],
+    [keyType.SIGN]: [
+      action.READ_NEXT_SIGN_TO_ARG,
+      action.SET_DISPLAY_RESULT_ARG,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP_ARG,
+      state.READ_ARG],
+    [keyType.POINT]: [
+      action.READ_NEXT_POINT_TO_ARG,
+      action.SET_DISPLAY_RESULT_ARG,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP_ARG,
+      state.READ_ARG],
+    [keyType.BACK]: [
+      action.READ_NEXT_BACK_TO_ARG,
+      action.SET_DISPLAY_RESULT_ARG,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP_ARG,
+      state.READ_ARG],
+    [keyType.OPERATOR]:    [
+      action.EVAL, action.READ_OPERATOR,
+      action.SET_DISPLAY_OPERATIONS_ACC_OP,
+      action.VALIDATE_RESULT,
+      action.SET_DISPLAY_RESULT_ACC,
+      state.READ_OP],
+    [keyType.EVAL]:        [
+      action.EVAL,
+      action.VALIDATE_RESULT,
+      action.SET_DISPLAY_RESULT_ACC,
+      state.INIT],
     [keyType.RESET]:       [action.RESET_STATE,                                  state.INIT],
     [keyType.MEM_ADD]:     [action.MEM_ADD_ARG,                                  state.INIT],
     [keyType.MEM_SUB]:     [action.MEM_SUB_ARG,                                  state.INIT],
@@ -95,69 +203,68 @@ const digitsCount = (string) => (string.split(/[-.]/).join('').length);
 
 const actions = {
 
-  [action.INIT_READ_ACC_DIGIT]: (state, key) => { state.acc = state.display = key; },
-  [action.INIT_READ_ACC_SIGN]:  (state)      => { state.acc = state.display = `${-(+(state.acc))}`; },
-  [action.INIT_READ_ACC_POINT]: (state)      => { state.acc = state.display = '0.'; },
-  [action.INIT_READ_ACC_BACK]:  (state)      => { state.acc = state.display = '0'; },
+  [action.READ_FIRST_DIGIT_TO_ACC]: (state, key) => { state.acc = key; },
+  [action.READ_FIST_SIGN_TO_ACC]:  (state)      => { state.acc = `${-(+(state.acc))}`; },
+  [action.READ_FIST_POINT_TO_ACC]: (state)      => { state.acc = '0.'; },
+  [action.INIT_READ_NEXT_BACK_TO_ACC]:  (state)      => { state.acc = '0'; },
 
-  [action.INIT_READ_ARG_DIGIT]: (state, key) => { state.arg = state.display = key; },
-  [action.INIT_READ_ARG_SIGN]:  (state)      => { state.arg = state.display = '0'; },
-  [action.INIT_READ_ARG_POINT]: (state)      => { state.arg = state.display = '0.'; },
-  [action.INIT_READ_ARG_BACK]:  (state)      => { state.arg = state.display = '0'; },
+  [action.READ_FIRST_DIGIT_TO_ARG]: (state, key) => { state.arg = key; },
+  [action.READ_FIRST_SIGN_TO_ARG]:  (state)      => { state.arg = '0'; },
+  [action.READ_FIRST_POINT_TO_ARG]: (state)      => { state.arg = '0.'; },
+  [action.READ_FIRST_BACK_TO_ARG]:  (state)      => { state.arg = '0'; },
   
-  [action.READ_ACC_DIGIT]: (state, key) => {
+  [action.READ_NEXT_DIGIT_TO_ACC]: (state, key) => {
     if(state.acc === '0'){
-      state.display = state.acc = key;
+      state.acc = key;
     } else {
       if(digitsCount(state.acc + key) > maxLen) return;
-      state.acc = state.display = state.acc + key;
+      state.acc = state.acc + key;
     }
   },
 
-  [action.READ_ACC_SIGN]: (state) => {
+  [action.READ_NEXT_SIGN_TO_ACC]: (state) => {
     if( +state.acc !== 0 )
-      state.display = state.acc = (state.acc[0] === '-') ? state.acc.slice(1) : `-${state.acc}`;
+      state.acc = (state.acc[0] === '-') ? state.acc.slice(1) : `-${state.acc}`;
   },
 
-  [action.READ_ACC_POINT]: (state) => {  
+  [action.READ_NEXT_POINT_TO_ACC]: (state) => {  
     if( isNaN(+`${state.acc}.`) || digitsCount(state.acc) === maxLen ) return;
-    state.display = state.acc = `${state.acc}.`;
+    state.acc = `${state.acc}.`;
   },
 
-  [action.READ_ACC_BACK]: (state) => {
+  [action.READ_NEXT_BACK_TO_ACC]: (state) => {
     state.acc = state.acc.slice(0, -1);
     if(state.acc === '' || isNaN(+state.acc)) /*isNaN in case of '-'*/
       state.acc = '0';
-    state.display = state.acc;
   },
 
-  [action.READ_ARG_DIGIT]: (state, key) => {
+  [action.READ_NEXT_DIGIT_TO_ARG]: (state, key) => {
     if(state.arg === '0'){
-      state.display = state.arg = key;
+      state.result = state.arg = key;
     } else {
       if(digitsCount(state.arg + key) > maxLen) return;
-      state.arg = state.display = state.arg + key;
+      state.arg = state.result = state.arg + key;
     }
   },
 
-  [action.READ_ARG_SIGN]: (state) => {
+  [action.READ_NEXT_SIGN_TO_ARG]: (state) => {
     if( +state.arg !== 0 )
-      state.display = state.arg = (state.arg[0] === '-') ? state.arg.slice(1) : `-${state.arg}`;
+      state.result = state.arg = (state.arg[0] === '-') ? state.arg.slice(1) : `-${state.arg}`;
   },
 
-  [action.READ_ARG_POINT]: (state) => {  
+  [action.READ_NEXT_POINT_TO_ARG]: (state) => {  
     if( isNaN(+`${state.arg}.`) || digitsCount(state.arg) === maxLen ) return;
-    state.display = state.arg = `${state.arg}.`;
+    state.result = state.arg = `${state.arg}.`;
   },
 
-  [action.READ_ARG_BACK]: (state) => {
+  [action.READ_NEXT_BACK_TO_ARG]: (state) => {
     state.arg = state.arg.slice(0, -1);
     if(state.arg === '' || isNaN(+state.arg)) /*isNaN in case of '-'*/
       state.arg = '0';
-    state.display = state.arg;
+    state.result = state.arg;
   },
 
-  [action.READ_OP]: (state, key) => {state.op = key},
+  [action.READ_OPERATOR]: (state, key) => {state.op = key},
 
   [action.EVAL]: (state) => {
      switch(state.op){
@@ -166,26 +273,32 @@ const actions = {
       case symbol.MUL:   state.acc = `${+state.acc * +state.arg}`; break;
       case symbol.DIV:   state.acc = `${+state.acc / +state.arg}`; break;
     }
-    state.display = state.acc;
+    state.result = state.acc;
   },
 
-  [action.EVAL_WITHOUT_ARG]: (state) => {state.arg = state.acc},
+  [action.SET_IMPLICIT_ARG_TO_ACC]: (state) => {state.arg = state.acc},
 
   [action.VALIDATE_RESULT]: (state) => {
     if(isNaN(+state.acc)){ /* in case of 0/0 */
       // state.acc = state.arg = '0';
-      state.display = '0[Err]';
+      state.result = '0[Err]';
       return ERROR_ROUTE;
     }
     if(isFinite(+state.acc)){
-      if(digitsCount(state.acc) > maxLen){
-        // state.acc = state.arg = '0';
-        state.display = '0[Err]';
+      let intPart = Math.round(Math.abs(+state.acc));
+      #- console.log('********');
+      #- console.log(intPart);
+      let intCount = digitsCount('' + intPart);
+      if(intCount > maxLen){
+        state.result = '0[Err]';
         return ERROR_ROUTE;
       }
+      let fracCount = maxLen - intCount;
+      let factor = Math.pow(10, fracCount);
+      state.acc = '' + Math.round(factor * (+state.acc))/factor;
+      #- console.log(state.acc);
     } else {
-      state.display = `0[${((+state.acc > 0)?'+':'-')}Inf]`;
-      // state.acc = state.arg = '0';
+      state.result = `0[${((+state.acc > 0)?'+':'-')}Inf]`;
       return ERROR_ROUTE;
     }
   },
@@ -194,17 +307,26 @@ const actions = {
     state.acc = initialState.acc;
     state.arg = initialState.acc;
     state.op = initialState.op;
-    state.display = initialState.display;
+    state.result = initialState.display;
     state.name = initialState.name;
+    state.operations = '0';
   },
 
   [action.MEM_ADD_ACC]:     (state) => {state.mem += +state.acc},
   [action.MEM_ADD_ARG]:     (state) => {state.mem += +state.arg},
   [action.MEM_SUB_ACC]:     (state) => {state.mem -= +state.acc},
   [action.MEM_SUB_ARG]:     (state) => {state.mem -= +state.arg},
-  [action.MEM_RESTORE_ACC]: (state) => {state.display = state.acc = `${state.mem}`},
-  [action.MEM_RESTORE_ARG]: (state) => {state.display = state.arg = `${state.mem}`},
+  [action.MEM_RESTORE_ACC]: (state) => {state.acc = `${state.mem}`},
+  [action.MEM_RESTORE_ARG]: (state) => {state.result = state.arg = `${state.mem}`},
   [action.MEM_CLEAR]:       (state) => {state.mem = 0},
+
+  [action.SET_DISPLAY_RESULT_ACC]: (state) => {state.result = state.acc},
+  [action.SET_DISPLAY_RESULT_ARG]: (state) => {state.result = state.arg},
+  [action.SET_DISPLAY_OPERATIONS_ACC]: (state) => {state.operations = '' + +state.acc},
+
+  [action.NORMALIZE_ACC]: (state) => {state.acc = '' + +state.acc},
+  [action.SET_DISPLAY_OPERATIONS_ACC_OP]: (state) => {state.operations = '' + +state.acc + state.op},
+  [action.SET_DISPLAY_OPERATIONS_ACC_OP_ARG]: (state) => {state.operations = '' + state.acc + state.op + +state.arg},
 };
 
 const digits = [

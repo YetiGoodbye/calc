@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import classes from 'Config/namespace.scss';
 
-import {getCaclucatorDisplay} from 'Reducers';
+import {getCalculationResult, getDisplayOperations} from 'Reducers';
 import {calcReceiveKey} from 'Actions';
 
 #- import debugWrapCall from 'Utils/debugWrapCall';
@@ -101,10 +101,10 @@ class Calculator extends React.Component {
 
   handleClick(e){
     // little hack
-    // it means that keyboard (not mouse) was pressed
+    // it means that keyboard (not mouse) button was pressed
     if(e.screenX === 0 && e.screenY === 0) return;
 
-    // it means keypad div (not button) has triggered event
+    // it means keypad div (not screen button) has triggered event
     let key = e.target.getAttribute("data-button-name");
     if(!key) return;
 
@@ -131,7 +131,8 @@ class Calculator extends React.Component {
         onKeyDown={this.handleKey}
         ref={(elem)=>{this.keyReceiver = elem;}} >
         <div className={CLS_DISPLAY}>
-          <label className={CLS_RESULT}>{this.props.display}</label>
+          <label className={CLS_OPERATIONS}>{this.props.operations}</label>
+          <label className={CLS_RESULT}>{this.props.result}</label>
         </div>
         <div className={CLS_KEYPAD} onClick={this.handleClick}>
           {
@@ -153,7 +154,8 @@ class Calculator extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  display: getCaclucatorDisplay(state),
+  result: getCalculationResult(state),
+  operations: getDisplayOperations(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

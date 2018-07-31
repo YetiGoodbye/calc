@@ -6,8 +6,10 @@ export default combineReducers({
 });
 
 // const getCalculatorState = (state) => (state.calculator);
-const getCaclucatorDisplay = (state) => calculatorSelectors.getDisplay(state.calculator);
+const getCalculationResult     = (state) => calculatorSelectors.getResult(state.calculator);
+const getDisplayOperations = (state) => calculatorSelectors.getOperations(state.calculator);
 
 export {
-  getCaclucatorDisplay,
+  getCalculationResult,
+  getDisplayOperations,
 };
