@@ -23,6 +23,10 @@ function createBaseConfig(env){
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'cleanup-debug-loader',
+      },{
+        test: /\.graphml$/,
+        exclude: /node_modules/,
+        loader: resolve(env.base, 'loaders/graphml-loader'),
       }]
     },
   };
