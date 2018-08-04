@@ -2,7 +2,7 @@ import shallowCopy from 'Utils/shallowCopy';
 import actionType from 'Actions/types';
 
 import initialState from './initialState';
-import doStateTransition from './stateTransitions';
+import doStateTransition from './transitions';
 
 const calculator = (state = initialState, action) => {
   switch(action.type){
