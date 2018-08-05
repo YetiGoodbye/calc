@@ -26,7 +26,10 @@ function createBaseConfig(env){
       },{
         test: /\.graphml$/,
         exclude: /node_modules/,
-        loader: resolve(env.base, 'loaders/graphml-loader'),
+        use: [{
+          loader: resolve(env.base, 'loaders/graphml-loader'),
+          // options: {printOutput: true},
+        }],
       }]
     },
   };
