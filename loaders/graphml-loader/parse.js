@@ -94,7 +94,7 @@ function processText(text){
 function close(xmlNodeName){
   let parser = xmlNodeParsers[lastIn(this.parsersStack)];
   if(!parser)
-    throw(`GraphML Loader: unexpected close tag </${xmlNodeName}>`);
+    this.emitError(new Error(`GraphML Loader: parser received unexpected close tag </${xmlNodeName}>`));
   
   if(parser.close)
     parser.close(xmlNodeName, this);

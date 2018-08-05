@@ -1,6 +1,9 @@
 const parse = require('./parse');
 const analize = require('./analize');
 
+
+const loaderName = 'GraphML loader: ';
+
 const createExportableConstants = (names) => {
   return names.reduce(
     (constants, name) => (constants[name] = name, constants),
@@ -8,16 +11,25 @@ const createExportableConstants = (names) => {
   )
 };
 
-const load = (graphml) => {
-  const graph = parse(graphml);
-  const result = analize(graph);
+function load(graphml){
+  let graph, result;
+  try {
+    graph = parse(graphml);
+  } catch (e) {
+    this.emitError(new Error(loaderName + 'parser ' + e));
+  }
+
+  result = analize(graph);
+  result.warnings.forEach(w => this.emitWarning(new Error(w)));
+  result.errors.forEach(e => this.emitError(new Error(e)));
+
   let js = '';
-  js += `const stateNames=${JSON.stringify(createExportableConstants(Object.values(graph.states)))};`;
-  js += `const actionNames=${JSON.stringify(createExportableConstants(Object.values(graph.actions)))};`;
-  js += `const signalNames=${JSON.stringify(createExportableConstants(Object.values(graph.signals)))};`;
-  js += `const normalRoutes=${JSON.stringify(result.normalRoutes)};`
-  js += `const alternativeRoutes=${JSON.stringify(result.alternativeRoutes)};`
-  js += 'export {stateNames,actionNames,signalNames,normalRoutes,alternativeRoutes};'
+  js += `const states=${JSON.stringify(createExportableConstants(Object.values(graph.states)))};`;
+  js += `const actions=${JSON.stringify(createExportableConstants(Object.values(graph.actions)))};`;
+  js += `const signals=${JSON.stringify(createExportableConstants(Object.values(graph.signals)))};`;
+  js += `const routes=${JSON.stringify(result.normalRoutes)};`
+  js += `const conditionalRoutes=${JSON.stringify(result.alternativeRoutes)};`
+  js += 'export {states,actions,signals,routes,conditionalRoutes};'
   return js;  
 }
 
