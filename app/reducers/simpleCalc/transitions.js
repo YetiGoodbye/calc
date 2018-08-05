@@ -16,7 +16,7 @@ const walkThrough = (route, state, key) => {
   let i=0;
   let conditionalRouteName;
   while(i<route.length-1){
-    #- console.log(actions[route[i]])
+    // #- console.log(actions[route[i]])
     if (conditionalRouteName = actions[route[i++]](state, key)){
       return walkThrough(conditionalRoutes[conditionalRouteName], state, key);
     }
@@ -26,9 +26,9 @@ const walkThrough = (route, state, key) => {
 
 export const doStateTransition = (state, key) => {
   let route = routes[state.name][signal(key)];
-  #- console.log(signal(key));
-  #- console.log(route);
-  state.name = walkThrough(route, state, key);
+  #- console.log('signal: ', signal(key));
+  #- console.log('route:', route);
+  if (route) state.name = walkThrough(route, state, key);
   return state;
 };
 
