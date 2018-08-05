@@ -33,12 +33,7 @@ function load(graphml){
   }
 
   result.warnings.forEach(e => this.emitWarning(new Error(loaderName + e)));
-  /*result.errors.forEach(e => {
-    console.log('************************\n************************\n************************\n');
-    console.log(loaderName + e);
-    console.log('************************\n************************\n************************\n');
-    this.emitError(new Error(loaderName + e))
-  });*/
+
   result.errors.forEach(e => this.emitError(new Error(loaderName + e)));
   if(result.errors.length) return '';
 
