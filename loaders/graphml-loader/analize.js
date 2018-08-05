@@ -4,8 +4,12 @@ const defaultRouteId = '#000000';
 class Analizer {
   constructor(graph){
     this.graph = graph;
-    this.normalRoutes = {};
-    this.alternativeRoutes = {};
+    this.routes = {};
+    this.conditionalRoutes = {};
+  }
+
+  nodeName(nodeId){
+    return (this.graph.signals[nodeId] || this.graph.actions[nodeId] || this.graph.states[nodeId]);
   }
 
   isAction(nodeId){
@@ -28,7 +32,6 @@ class Analizer {
     return this.transitions(nodeId).map(tr => tr.target);
   }
 
-  // next node for route with routeId or for default route
   nextNodeForRoute(nodeId, routeId){
     let transitions = this.transitions(nodeId);
 
@@ -37,13 +40,11 @@ class Analizer {
       return exactRouteTransitions[0].target;
 
     if(exactRouteTransitions.length > 1){
-      throw (
-        'found more than one exact transitions',
+      throw ( 'found more than one route transition' +
         '\ngraphml node id: ' + nodeId +
-        '\nnode name:' + (this.graph.signals[nodeId] || this.graph.actions[nodeId] || this.graph.states[nodeId]) +
-        '\nroute id: ' + routeId + 
-        '\ntransitions:\n' + inspect(transitions)
-      );
+        '\nnode name:' + this.nodeName(nodeId) +
+        '\nroute id: ' + routeId +
+        '\ntransitions:' + inspect(transitions));
     }
       
 
@@ -51,13 +52,15 @@ class Analizer {
     if(defaultRouteTransitions.length === 1)
       return defaultRouteTransitions[0].target;
 
-    throw (
-      'failed to find any route' +
+    throw ( 'failed to find any route' +
       '\ngraphml node id: ' + nodeId +
-      '\nnode name:' + (this.graph.signals[nodeId] || this.graph.actions[nodeId] || this.graph.states[nodeId]) +
+      '\nnode name:' + this.nodeName(nodeId) +
       '\nroute id: ' + routeId + 
-      '\ntransitions:\n' + inspect(transitions)
-    );
+      '\ntransitions:\n' + inspect(transitions));
+  }  
+
+  dereferenceNodes(route){
+    return route.map(nodeId => this.nodeName(nodeId));
   }
 
   findRouteRecursive(nodeId, routeId, route){
@@ -65,29 +68,34 @@ class Analizer {
     try {
       nextNodeId = this.nextNodeForRoute(nodeId, routeId);
     } catch (e){
-      throw e + '\nroute: ' + inspect(route);
+      throw e + '\nroute: ' + inspect(this.dereferenceNodes(route));
     }
 
     if(this.isAction(nextNodeId)){
-      route.push(this.graph.actions[nextNodeId]);
+      if(route.includes(nextNodeId)){
+        throw ('found looping route' +
+          '\ngraphml node id:' + nodeId +
+          '\nnode name:' + this.nodeName(nodeId) +
+          '\nroute id: ' + routeId + 
+          '\nroute: ' + inspect(this.dereferenceNodes(route)) +
+          '\nnext graphml node id:' + nextNodeId +
+          '\nnext node name:' + this.nodeName(nextNodeId));
+      }
+      route.push(nextNodeId);
       this.findRouteRecursive(nextNodeId, routeId, route);
     } else if (this.isState(nextNodeId)){
-      route.push(this.graph.states[nextNodeId]);
+      route.push(nextNodeId);
     } else {
-      throw (
-        'received a route node with not applicable type' +
+      throw ('received a route node with not applicable type' +
         '\ngraphml node id:' + nextNodeId +
-        '\nnode name:' + (this.graph.signals[nodeId] || this.graph.actions[nodeId] || this.graph.states[nodeId]) +
+        '\nnode name:' + this.nodeName(nodeId) +
         '\nroute id: ' + routeId + 
-        '\nroute: ' + inspect(route)
-      );
+        '\nroute: ' + inspect(this.dereferenceNodes(route)));
     }
   }
 
   findRouteWithId(nodeId, routeId){
     let exactRouteTransitions = this.transtionsWithRouteId(nodeId, routeId);
-    // this was checked before call
-    // if(exactRouteTransitions.length !== 1) throw ...
 
     let nextNode = exactRouteTransitions[0].target 
     
@@ -102,11 +110,10 @@ class Analizer {
   findRoute(signalId){
     let transitions = this.transitions(signalId);
     if(transitions.length !== 1){
-      throw (
-        'found invalid transitions count' + transitions.length +
+      throw ('found invalid transitions count: ' + transitions.length +
         '\ngraphml node id:' + signalId +
-        '\nnode name:' + (this.graph.signals[nodeId] || this.graph.actions[nodeId] || this.graph.states[nodeId])
-        );
+        '\nnode name:' + this.nodeName(signalId) +
+        '\ntransitions' + inspect(transitions));
     }
 
     let route = [];
@@ -130,75 +137,72 @@ class Analizer {
 
     let loopTransitions = this.loopTransitions();
     if (loopTransitions.length){
-      warnings.push(
-        'found ' + loopTransitions.count + ' loop transitions\n' +
-        inspect(loopTransitions)
+      let inspected = '';
+      loopTransitions.forEach(tr => {inspected += '\n\t' + inspect(tr);});
+      errors.push(
+        'Analyzer found ' + loopTransitions.length + ' loop transitions' + inspected
       );
+      return {
+        routes: this.routes,
+        conditionalRoutes: this.conditionalRoutes,
+        warnings, errors
+      };
     }
 
-      Object.entries(this.graph.states).forEach(stateEntry => {
-        let [stateId, stateName] = stateEntry;
-        this.normalRoutes[stateName] = {};
+    Object.entries(this.graph.states).forEach(stateEntry => {
+      let [stateId, stateName] = stateEntry;
+      this.routes[stateName] = {};
 
-        let signalIds = this.nextNodes(stateId);
+      let signalIds = this.nextNodes(stateId);
 
-        try {
-          signalIds.forEach(signalId => {
-            let signalName = this.graph.signals[signalId];
-            if(!signalName){
-              throw (
-                'got unexpected parser error. signalId is not found' +
-                '\nsignalId:' + signalId +
-                '\nnode name: ' + (this.graph.signals[nodeId] || this.graph.actions[nodeId] || this.graph.states[nodeId]) +
-                '\nThis is probably internal loader error. Please report a bug. Sorry :('
-                );
-            }
-            this.normalRoutes[stateName][signalName] = this.findRoute(signalId);
-          });
-        } catch (e) {
-          errors.push(
-            e +
-            '\nstart from state id: ' + stateId +
-            '\nstate name: ' + stateName
-            );
-        }
-      });
-
-      Object.entries(this.graph.conditions).forEach(conditionEntry => {
-        let [conditionId, condition] = conditionEntry;
-
-        try {
-          let transitions = this.transtionsWithRouteId(conditionId, condition.routeId)
-
-          if(transitions.length !== 1) {
-            throw 'found invalid transitions count: ' +transitions.length + 
-            '\nroute id: ' + condition.routeId;
+      try {
+        signalIds.forEach(signalId => {
+          let signalName = this.graph.signals[signalId];
+          if(!signalName){
+            throw ('got unexpected parser error. Signal with was not found by id' +
+              '\nThis is probably loader bug. Sorry :(' +
+              '\nsignalId:' + signalId);
           }
+          let route = this.findRoute(signalId)
+          this.routes[stateName][signalName] = this.dereferenceNodes(route);
+        });
+      } catch (e) {
+        errors.push('Analizer ' +
+          e +
+          '\nstate id: ' + stateId +
+          '\nstate name: ' + stateName);
+      }
+    });
 
-          this.alternativeRoutes[this.graph.actions[conditionId]] = this.findRouteWithId( conditionId, condition.routeId );
+    Object.entries(this.graph.conditions).forEach(conditionEntry => {
+      let [conditionId, condition] = conditionEntry;
 
-        } catch (e) {
-          console.log('******************************');
-          console.log(e);
-          errors.push(
-            e +
-            '\nconditional node id:' + conditionId +
-            '\nnodename:' + this.graph.actions[conditionId]
-            );
+      try {
+        let transitions = this.transtionsWithRouteId(conditionId, condition.routeId)
+
+        if(transitions.length !== 1) {
+          throw ('found invalid transitions count: ' +
+          transitions.length + 
+          '\nroute id: ' + condition.routeId);
         }
-      });
+
+        this.conditionalRoutes[this.graph.actions[conditionId]] = this.findRouteWithId( conditionId, condition.routeId );
+
+      } catch (e) {
+        errors.push(
+          'Analizer ' + e +
+          '\nconditional node id:' + conditionId +
+          '\nconditional node name:' + this.graph.actions[conditionId]
+          );
+      }
+    });
 
     return {
-      normalRoutes: this.normalRoutes,
-      alternativeRoutes: this.alternativeRoutes,
+      routes: this.routes,
+      conditionalRoutes: this.conditionalRoutes,
       warnings, errors
     };
   }
 }
 
-function analize(graph){
-  console.log(graph);
-  return new Analizer(graph).analize();
-}
-
-module.exports = analize;
+module.exports = (graph) => new Analizer(graph).analize();
