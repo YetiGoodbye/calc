@@ -91,15 +91,14 @@ class Calculator extends React.Component {
     let key = e.target.getAttribute("data-button-name");
     if(!key) return;
 
-    #- console.log('receiveKey by click ' + key);
+    #- console.log('SimpleCalc received key by click ' + key);
     this.props.calcReceiveKey(key);
   }
 
   handleKey(e){
-    #- console.dir(e.key);
     let key = keysMap[e.key.toLowerCase()];
     if(!key) return;
-    #- console.log('receiveKey by key press ' + key);
+    #- console.log('SimpleCalc received key by keyboard press ' + key);
     this.props.calcReceiveKey(key);
   }
 
