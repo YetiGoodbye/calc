@@ -11,7 +11,7 @@ import './index.scss';
 
 import Button from 'Components/Button';
 
-import {SYMBOLS as SM} from 'Constants';
+import {symbols as SM} from 'Constants';
 
 const CLS = classes.Calculator;
 const CLS_DISPLAY = `${CLS}--display`;
