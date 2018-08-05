@@ -1,7 +1,7 @@
-import {stateNames} from './constants';
+import {states} from './transitions.graphml';
 
 const initialState = {
-  name: stateNames.INIT,
+  name: states.INIT,
   acc: '0',
   arg: '0',
   op: '+',
