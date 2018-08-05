@@ -84,7 +84,7 @@ const actions = {
     if(isNaN(+state.acc)){ /* in case of 0/0 */
       // state.acc = state.arg = '0';
       state.result = '0[Err]';
-      return ERROR_ROUTE;
+      return actionNames.VALIDATE_RESULT;
     }
     if(isFinite(+state.acc)){
       let intPart = Math.round(Math.abs(+state.acc));
@@ -93,7 +93,7 @@ const actions = {
       let intCount = digitsCount('' + intPart);
       if(intCount > maxLen){
         state.result = '0[Err]';
-        return ERROR_ROUTE;
+        return actionNames.VALIDATE_RESULT;
       }
       let fracCount = maxLen - intCount;
       let factor = Math.pow(10, fracCount);
@@ -101,7 +101,7 @@ const actions = {
       #- console.log(state.acc);
     } else {
       state.result = `0[${((+state.acc > 0)?'+':'-')}Inf]`;
-      return ERROR_ROUTE;
+      return actionNames.VALIDATE_RESULT;
     }
   },
 
