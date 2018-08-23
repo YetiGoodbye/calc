@@ -1,0 +1,7 @@
+&__wrapper {
+  position: relative;
+  width: calc(100% - 2 * #{$keypadButtonHMarginPx});
+  height: calc(100% - 2 * #{$keypadButtonVMarginPx});
+  margin: $keypadButtonVMarginPx $keypadButtonHMarginPx;
+  display: block;
+}

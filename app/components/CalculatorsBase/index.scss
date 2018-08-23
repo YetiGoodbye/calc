@@ -1,0 +1,80 @@
+@import 'Config/namespace.scss';
+@import 'Config/constants.scss';
+
+@import './buttons.scss';
+
+
+.#{$AdvancedCalculator} {
+  width: 100%;
+  height: 100%;
+  background-color: #345;
+  border: solid 3px #012;
+  border-top-color: #233;
+  border-left-color: #233;
+  box-shadow: 3px 3px 10px 0px rgba(0,0,0,0.5);
+  position: relative;
+
+  &__{
+    
+    &display {
+      height: $calcDisplayHeightPx;
+      width: calc(100% - #{$calcDisplayHMargin * 2});
+      background-color: #ffb;
+      margin: $calcDisplayVMargin $calcDisplayHMargin;
+      border: 1px black solid;
+    }
+
+    &operations {
+      height: $calcOperationsHeightPx;
+      width: 100%;
+      font-family: 'Orbitron';
+      font-size: 14px;
+      text-align: right;
+      padding: 5px 10px 0 0;
+    }
+
+    &result {
+      height: #{$calcDisplayHeightPx - $calcOperationsHeightPx};
+      width: 100%;
+      font-family: 'Orbitron';
+      font-size: 30px;
+      text-align: right;
+      padding: 5px 10px;
+    }
+
+    &keypad {
+      margin: $calcButtonVMargin $calcButtonHMargin;
+      height: calc(100% - #{$calcDisplayFullHeightPx + $calcButtonVMargin * 2});
+      width: calc(100% - #{$calcButtonHMargin * 2});
+      position: relative;
+    }
+
+    &button {
+      width: calc(100% - #{$calcButtonHMargin * 2});
+      height: calc(100% - #{$calcButtonVMargin * 2});
+      margin: $calcButtonVMargin $calcButtonHMargin;
+      background-color: #122;
+      color: white;
+      font-family: sans-serif;
+      font-size: 18px;
+      border: 1px outset grey;
+      user-select: none; 
+    }
+
+    &button:active {
+      border: 1px inset grey;
+    }
+
+    &button:focus {
+      outline: 0;
+    }
+
+    &button::-moz-focus-inner {
+      border: 0;
+    }
+  }
+}
+
+
+
+

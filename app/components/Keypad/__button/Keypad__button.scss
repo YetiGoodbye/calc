@@ -1,0 +1,6 @@
+&__button {
+  position: absolute;
+  
+  @import "_layout/Keypad__button_layout-advanced-*.scss";
+  @import "_layout/Keypad__button_layout-simple-*.scss";
+}

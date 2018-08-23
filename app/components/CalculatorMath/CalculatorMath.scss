@@ -1,0 +1,21 @@
+.#{$klassName} {
+  color: white;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  @import '__history/CalculatorMath__history.scss';
+  @import '__calc/CalculatorMath__calc.scss';
+  @import '__display/CalculatorMath__display.scss';
+  @import '__keypad/CalculatorMath__keypad.scss';
+}
+
+$klassName: 'keypad';
+@import 'Components/Keypad/index.scss';
+
+$klassName: 'display';
+@import 'Components/Display/index.scss';
+
+$klassName: 'history';
+@import 'Components/History/index.scss';

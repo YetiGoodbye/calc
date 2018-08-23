@@ -1,0 +1,12 @@
+@import 'Utils/scss/mixins/top_left.scss';
+
+@import 'Config/calculator/button/classNameSuffix.scss';
+
+@import 'Config/style/reset/index.scss';
+@import 'Config/style/layout/index.scss';
+@import 'Config/style/theme/dark/index.scss';
+
+
+$klassName: application;
+$bodyClass: main;
+@import 'Components/Application/index.scss';

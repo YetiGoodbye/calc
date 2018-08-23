@@ -1,0 +1,20 @@
+.#{$klassName} {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @import '_theme/CalculationRecord_theme-dark.scss';
+  @import '_theme/CalculationRecord_theme-light.scss';
+  @import '__question-wrapper/CalculationRecord__question-wrapper.scss';
+  @import '__answer-wrapper/CalculationRecord__answer-wrapper.scss';
+  @import '__wrapper/CalculationRecord__wrapper.scss';
+}
+
+
+$klassName: question;
+@import 'Components/TextBox/index.scss';
+
+$klassName: answer;
+@import 'Components/TextBox/index.scss';
+

@@ -1,0 +1,17 @@
+.#{$klassName} {
+  padding: 2px 10px;
+  /*font-family: sans-serif;*/
+  text-align: right;
+
+  @import "_theme/-dark.scss";
+  @import "_align/-left.scss";
+  @import "_align/-right.scss";
+  @import "_font-size/-sm.scss";
+  @import "_font-size/-md.scss";
+  @import "_font-size/-lg.scss";
+  @import "_font-size/-xl.scss";
+}
+
+$klassName: button;
+@import 'Components/Button/index.scss';
+

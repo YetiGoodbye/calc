@@ -1,0 +1,12 @@
+.#{$klassName} {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @import '__wrapper/Keypad__wrapper.scss';
+  @import '__button/Keypad__button.scss';
+}
+
+$klassName: button;
+@import 'Components/Button/index.scss';

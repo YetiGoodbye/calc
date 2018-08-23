@@ -1,0 +1,9 @@
+.#{$klassName} {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  
+  @import '__left/LayoutCols3__left.scss';
+  @import '__center/LayoutCols3__center.scss';
+  @import '__right/LayoutCols3__right.scss';
+}

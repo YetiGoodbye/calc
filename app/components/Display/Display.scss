@@ -1,0 +1,18 @@
+.#{$klassName} {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @import '__question/index.scss';
+  @import '__answer/index.scss';
+  @import '__wrapper/index.scss';
+}
+
+
+$klassName: mathcalc-display-question;
+@import 'Components/TextBox/index.scss';
+
+$klassName: mathcalc-display-answer;
+@import 'Components/TextBox/index.scss';
+

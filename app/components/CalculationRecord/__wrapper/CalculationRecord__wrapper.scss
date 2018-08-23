@@ -1,0 +1,10 @@
+&__wrapper {
+  width: calc(100% - 4 * #{$keypadButtonHMarginPx});
+  height: calc(100% - 2 * #{$keypadButtonVMarginPx});
+  margin: $keypadButtonVMarginPx calc(2 * #{$keypadButtonHMarginPx});
+  display: block;
+  font-size: 10px;
+
+  @import '_theme/CalculationRecord__wrapper_theme-dark.scss';
+  @import '_theme/CalculationRecord__wrapper_theme-light.scss';
+}

@@ -1,0 +1,13 @@
+.#{$bodyClass} {
+  overflow-y: hidden;
+  @import '_theme/body_theme-dark.scss';
+}
+
+.#{$klassName} {
+}
+
+$klassName: layout3;
+@import 'Components/LayoutCols3/index.scss';
+
+$klassName: mathcalc;
+@import 'Components/CalculatorMath/index.scss';

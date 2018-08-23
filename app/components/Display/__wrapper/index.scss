@@ -1,0 +1,9 @@
+&__wrapper {
+  width: calc(100% - 4 * #{$keypadButtonHMarginPx});
+  height: calc(100% - 3 * #{$keypadButtonVMarginPx});
+  margin: $keypadButtonVMarginPx calc(2 * #{$keypadButtonHMarginPx});
+  margin-top: calc(#{$keypadButtonVMarginPx} * 2);
+  display: block;
+
+  @import '_theme/-dark.scss';
+}

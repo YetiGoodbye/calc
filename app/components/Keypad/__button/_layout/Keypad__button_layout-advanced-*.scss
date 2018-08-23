@@ -1,0 +1,59 @@
+&_layout-advanced-{
+  &#{$SUFFIX_SIN}       {@include top_left( 0,   0)}
+  &#{$SUFFIX_COS}       {@include top_left( 20%, 0)}
+  &#{$SUFFIX_TAN}       {@include top_left( 40%, 0)}
+  &#{$SUFFIX_PI}        {@include top_left( 60%, 0)}
+  &#{$SUFFIX_DEG}       {@include top_left( 80%, 0)}
+  &#{$SUFFIX_ASIN}      {@include top_left( 0%,  11.111%)}
+  &#{$SUFFIX_ACOS}      {@include top_left( 20%, 11.111%)}
+  &#{$SUFFIX_ATAN}      {@include top_left( 40%, 11.111%)}
+  &#{$SUFFIX_EXP}       {@include top_left( 60%, 11.111%)}
+  &#{$SUFFIX_PERCENT}   {@include top_left( 80%, 11.111%)}
+  &#{$SUFFIX_ROOT_Y}    {@include top_left( 0%,  22.222%)}
+  &#{$SUFFIX_LOG_Y}     {@include top_left( 20%, 22.222%)}
+  &#{$SUFFIX_LOG_10}    {@include top_left( 40%, 22.222%)}
+  &#{$SUFFIX_LN}        {@include top_left( 60%, 22.222%)}
+  &#{$SUFFIX_AVG}       {@include top_left( 80%, 22.222%)}
+  &#{$SUFFIX_SQRT}      {@include top_left( 0%,  33.333%)}
+  &#{$SUFFIX_POW_Y}     {@include top_left( 20%, 33.333%)}
+  &#{$SUFFIX_POW_OF_10} {@include top_left( 40%, 33.333%)}
+  &#{$SUFFIX_INVERSE}   {@include top_left( 60%, 33.333%)}
+  &#{$SUFFIX_COMMA}     {@include top_left( 80%, 33.333%)}
+  &#{$SUFFIX_L_BR}      {@include top_left( 0,   44.444%)}
+  &#{$SUFFIX_D7}        {@include top_left( 20%, 44.444%)}
+  &#{$SUFFIX_D4}        {@include top_left( 40%, 44.444%)}
+  &#{$SUFFIX_D1}        {@include top_left( 60%, 44.444%)}
+  &#{$SUFFIX_D0}        {@include top_left( 80%, 44.444%)}
+  &#{$SUFFIX_R_BR}      {@include top_left( 0,   55.556%)}
+  &#{$SUFFIX_D8}        {@include top_left( 20%, 55.556%)}
+  &#{$SUFFIX_D5}        {@include top_left( 40%, 55.556%)}
+  &#{$SUFFIX_D2}        {@include top_left( 60%, 55.556%)}
+  &#{$SUFFIX_D000}      {@include top_left( 80%, 55.556%)}
+  &#{$SUFFIX_RESET}     {@include top_left( 0,   66.667%)}
+  &#{$SUFFIX_D9}        {@include top_left( 20%, 66.667%)}
+  &#{$SUFFIX_D6}        {@include top_left( 40%, 66.667%)}
+  &#{$SUFFIX_D3}        {@include top_left( 60%, 66.667%)}
+  &#{$SUFFIX_POINT}     {@include top_left( 80%, 66.667%)}
+  &#{$SUFFIX_MOVE_L}    {@include top_left( 0,   77.778%)}
+  &#{$SUFFIX_BACK}      {@include top_left( 20%, 77.778%)}
+  &#{$SUFFIX_MUL}       {@include top_left( 40%, 77.778%)}
+  &#{$SUFFIX_ADD}       {@include top_left( 60%, 77.778%)}
+  &#{$SUFFIX_SIGN}      {@include top_left( 80%, 77.778%)}
+  &#{$SUFFIX_MOVE_R}    {@include top_left( 0,   88.889%)}
+  &#{$SUFFIX_DEL}       {@include top_left( 20%, 88.889%)}
+  &#{$SUFFIX_DIV}       {@include top_left( 40%, 88.889%)}
+  &#{$SUFFIX_SUB}       {@include top_left( 60%, 88.889%)}
+  &#{$SUFFIX_EVAL}      {@include top_left( 80%, 88.889%)}
+
+  &#{$SUFFIX_SIN},  &#{$SUFFIX_COS},  &#{$SUFFIX_TAN},  &#{$SUFFIX_PI}, &#{$SUFFIX_DEG},
+  &#{$SUFFIX_ASIN}, &#{$SUFFIX_ACOS}, &#{$SUFFIX_ATAN}, &#{$SUFFIX_EXP}, &#{$SUFFIX_PERCENT}, &#{$SUFFIX_ROOT_Y},
+  &#{$SUFFIX_LOG_Y},&#{$SUFFIX_LOG_10}, &#{$SUFFIX_LN}, &#{$SUFFIX_AVG}, &#{$SUFFIX_SQRT}, &#{$SUFFIX_POW_Y},
+  &#{$SUFFIX_POW_OF_10}, &#{$SUFFIX_INVERSE}, &#{$SUFFIX_COMMA}, &#{$SUFFIX_L_BR},
+  &#{$SUFFIX_D7}, &#{$SUFFIX_D4}, &#{$SUFFIX_D1}, &#{$SUFFIX_D0}, &#{$SUFFIX_R_BR}, &#{$SUFFIX_D8}, &#{$SUFFIX_D5},
+  &#{$SUFFIX_D2}, &#{$SUFFIX_D000}, &#{$SUFFIX_RESET}, &#{$SUFFIX_D9}, &#{$SUFFIX_D6}, &#{$SUFFIX_D3}, &#{$SUFFIX_POINT},
+  &#{$SUFFIX_MOVE_L}, &#{$SUFFIX_BACK}, &#{$SUFFIX_MUL}, &#{$SUFFIX_ADD}, &#{$SUFFIX_SIGN}, &#{$SUFFIX_MOVE_R},
+  &#{$SUFFIX_DEL}, &#{$SUFFIX_DIV}, &#{$SUFFIX_SUB}, &#{$SUFFIX_EVAL} {
+    width: 11.111%;
+    height: 20%;
+  }
+}

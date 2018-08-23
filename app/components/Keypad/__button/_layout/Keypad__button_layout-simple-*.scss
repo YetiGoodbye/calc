@@ -1,0 +1,49 @@
+&_layout-simple-{
+  &#{$SUFFIX_MEM_ADD}      {@include top_left( 0, 0)}
+  &#{$SUFFIX_MEM_SUB}      {@include top_left( 0, 20%)}
+  &#{$SUFFIX_MEM_RESTORE}  {@include top_left( 0, 40%)}
+  &#{$SUFFIX_MEM_CLEAR}    {@include top_left( 0, 60%)}
+  &#{$SUFFIX_RESET}        {@include top_left( 0, 80%)}
+  
+  &#{$SUFFIX_D7}           {@include top_left( 20%, 0)}
+  &#{$SUFFIX_D8}           {@include top_left( 20%, 20%)}
+  &#{$SUFFIX_D9}           {@include top_left( 20%, 40%)}
+  &#{$SUFFIX_BACK}         {@include top_left( 20%, 60%)}
+
+  &#{$SUFFIX_D4}           {@include top_left( 40%, 0)}
+  &#{$SUFFIX_D5}           {@include top_left( 40%, 20%)}
+  &#{$SUFFIX_D6}           {@include top_left( 40%, 40%)}
+  &#{$SUFFIX_MUL}          {@include top_left( 40%, 60%)}
+  &#{$SUFFIX_DIV}          {@include top_left( 40%, 80%)}
+  
+  &#{$SUFFIX_D1}           {@include top_left( 60%, 0)}
+  &#{$SUFFIX_D2}           {@include top_left( 60%, 20%)}
+  &#{$SUFFIX_D3}           {@include top_left( 60%, 40%)}
+  &#{$SUFFIX_ADD}          {@include top_left( 60%, 60%)}
+  &#{$SUFFIX_SUB}          {@include top_left( 60%, 80%)}
+
+  &#{$SUFFIX_D0}           {@include top_left( 80%, 0)}
+  &#{$SUFFIX_POINT}        {@include top_left( 80%, 20%)}
+  &#{$SUFFIX_SIGN}         {@include top_left( 80%, 40%)}
+  &#{$SUFFIX_EVAL}         {@include top_left( 80%, 80%)}
+
+  &#{$SUFFIX_D7}, &#{$SUFFIX_D4}, &#{$SUFFIX_D1}, &#{$SUFFIX_D0}, &#{$SUFFIX_D8}, &#{$SUFFIX_D5},
+  &#{$SUFFIX_D2}, &#{$SUFFIX_RESET}, &#{$SUFFIX_D9}, &#{$SUFFIX_D6}, &#{$SUFFIX_D3},
+  &#{$SUFFIX_POINT}, &#{$SUFFIX_MUL}, &#{$SUFFIX_SIGN},
+  &#{$SUFFIX_DIV}, &#{$SUFFIX_SUB}, &#{$SUFFIX_EVAL},
+  &#{$SUFFIX_MEM_ADD}, &#{$SUFFIX_MEM_SUB}, &#{$SUFFIX_MEM_RESTORE}, &#{$SUFFIX_MEM_CLEAR} {
+    width:  20%;
+    height: 20%;
+  }
+
+  &#{$SUFFIX_BACK} {
+    width:  40%;
+    height: 20%;
+  }
+
+  &#{$SUFFIX_ADD} {
+    width:  20%;
+    height: 40%;
+  }
+
+}

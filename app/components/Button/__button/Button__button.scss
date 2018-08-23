@@ -1,0 +1,23 @@
+&__button {
+  width: calc(100% - 2 * #{$keypadButtonHMarginPx});
+  height: calc(100% - 2 * #{$keypadButtonVMarginPx});
+  margin: $keypadButtonVMarginPx $keypadButtonHMarginPx;
+  font: sans-serif;
+  font-size: 18px;
+  user-select: none; 
+
+  &:active {
+    border: 1px inset grey;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+  @import '_theme/Button__button_theme-dark.scss';
+}
+

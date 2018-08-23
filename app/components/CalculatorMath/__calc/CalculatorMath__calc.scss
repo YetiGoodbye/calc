@@ -1,0 +1,10 @@
+&__calc {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: #{$mathCalcHeightPx};
+
+  border: solid 1px black;
+
+  @import '_theme/CalculatorMath__calc_theme-dark.scss';
+}

@@ -1,0 +1,14 @@
+.#{$klassName} {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @import '_theme/-dark.scss';
+  @import '__white-space/index.scss';
+  @import '__history-wrapper/index.scss';
+  @import '__record-wrapper/index.scss';
+}
+
+$klassName: record;
+@import 'Components/CalculationRecord/index.scss';

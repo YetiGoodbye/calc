@@ -1,12 +1,14 @@
-$Application: app;
-$TopLayout:   calctop;
-$Calculator:  calc;
-$Button:      calcbtn;
-$Menu:        menu;
+$Application:        app;
+$TopLayout:          calctop;
+$Calculator:         calc;
+$AdvancedCalculator: advcalc;
+$Button:             calcbtn;
+$Menu:               menu;
 
 :export {
   Application: $Application;
   Calculator: $Calculator;
+  AdvancedCalculator: $AdvancedCalculator;
   Button: $Button;
   TopLayout: $TopLayout;
   Menu: $Menu;
