@@ -132,8 +132,8 @@ class Analizer {
 
   analize(){
 
-    let warnings = [];
-    let errors = [];
+    let warnings = this.graph.warnings;
+    let errors = this.graph.errors;
 
     let loopTransitions = this.loopTransitions();
     if (loopTransitions.length){
@@ -153,8 +153,26 @@ class Analizer {
       let [stateId, stateName] = stateEntry;
       this.routes[stateName] = {};
 
-      let signalIds = this.nextNodes(stateId);
+      let signalIds = this.nextNodes(stateId).sort();
+      
+      let signalNames = signalIds.map(s_id => this.graph.signals[s_id]).sort();
+      for (let i=0; i<signalNames.length-1; i++) {
+        if (signalNames[i+1] == signalNames[i]) {
+          errors.push('Analizer found duplicate signals from same state' +
+            '\nstate id: ' + stateId +
+            '\nstate name: ' + stateName +
+            '\nsignal ids: ' + signalIds[i] + ' ' + signalIds[i+1] +
+            '\nsignal name: ' + this.graph.signals[signalIds[i]]);
 
+
+          return {
+            routes: this.routes,
+            conditionalRoutes: this.conditionalRoutes,
+            warnings, errors
+          };
+        }
+      }
+      
       try {
         signalIds.forEach(signalId => {
           let signalName = this.graph.signals[signalId];
