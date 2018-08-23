@@ -18,6 +18,7 @@ function load(graphml){
     graph = parse(graphml);
   } catch (e) {
     this.emitError(new Error(loaderName + 'parser ' + e));
+    return;
   }
 
   if(this.query.printOutput){
