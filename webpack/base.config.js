@@ -10,17 +10,20 @@ function createBaseConfig(env){
         Actions:    resolve(env.base, 'app/actions/'),
         Reducers:   resolve(env.base, 'app/reducers/'),
         Config:     resolve(env.base, 'app/config/'),
-        Constants:  resolve(env.base, 'app/constants/'),
         Utils:      resolve(env.base, 'app/utils/'),
-      }
+        Store:      resolve(env.base, 'app/store/'),
+        Selectors:  resolve(env.base, 'app/selectors/'),
+        Loaders:    resolve(env.base, 'loaders'),
+      },
+      extensions: ['.js', '.jsx'],
     },
     module: {
       rules:[{
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',   
       },{
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loader: 'cleanup-debug-loader',
       },{
