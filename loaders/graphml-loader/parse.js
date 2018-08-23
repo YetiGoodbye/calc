@@ -22,7 +22,6 @@ const xmlNodeParsers = {
       let {id, label, color} = currentNode;
       if ( isState(currentNode) ) {
         context.states[id] = label;
-        // context.stateNames.push(label);
       } else if ( isSignal(currentNode) ) {
         context.signals[id] = label;
       } else if ( isConstantDeclaration(currentNode) ){
@@ -94,7 +93,7 @@ function processText(text){
 function close(xmlNodeName){
   let parser = xmlNodeParsers[lastIn(this.parsersStack)];
   if(!parser)
-    this.emitError(new Error(`GraphML Loader: parser received unexpected close tag </${xmlNodeName}>`));
+    this.errors.push(`parser received unexpected close tag </${xmlNodeName}>`);
   
   if(parser.close)
     parser.close(xmlNodeName, this);
@@ -104,13 +103,14 @@ function close(xmlNodeName){
 const parse = (graphml) => {
   const context = {
     states: {},
-    // stateNames: [],
     signals: {},
     signalNames: {},
     actions: {},
     conditions: {},
     transitions: {},
-    parsersStack: []
+    parsersStack: [],
+    errors: [],
+    warnings: [],
   };
   const saxParser = sax.parser(/*strict:*/true/*, {trim: true}*/);
   saxParser.onopentagstart = openChild.bind(context);
@@ -118,11 +118,14 @@ const parse = (graphml) => {
   saxParser.ontext         = processText.bind(context);
   saxParser.onclosetag     = close.bind(context);
   saxParser.write(graphml).close();
+
   Object.keys(context.signals).forEach(signalId => {
     let oldName = context.signals[signalId];
     let newName = context.signalNames[oldName];
     if(newName)
       context.signals[signalId] = newName;
+    else
+       context.warnings.push('mapping for `' + oldName + '` was not found. Signal id is ' + signalId);
   });
 
   delete context.signalNames;
